@@ -1,0 +1,123 @@
+/* Colores del tema oscuro (por defecto) */
+:root{--bg:#000;
+--bg2:#0b0b0d;
+--surface:#111;
+--text:#f5f5f7;--muted:#a1a1a6;
+--line:rgba(255,255,255,.1);
+--accent:#2997ff;--navbg:rgba(0,0,0,.75);
+--grad:linear-gradient(135deg,#2997ff,#b344ff,#ffb6ff)}
+
+/* Colores del tema claro (se activa con el botón ◐) */
+[data-theme=light]{--bg:#fff;--bg2:#f5f5f7;--surface:#f5f5f7;--text:#1d1d1f;--muted:#515154;--line:rgba(0,0,0,.12);--accent:#0066cc;--navbg:rgba(255,255,255,.8)}
+
+/* Reset y fuente del sistema */
+
+*{margin:0;padding:0;
+box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s}
+
+/* Foco visible para teclado y atajo "saltar" */
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:8px 14px;border-radius:8px;z-index:3000}
+.skip:focus{left:8px}
+/* Navegación fija con cristal */
+nav{position:fixed;top:0;width:100%;min-height:48px;background:var(--navbg);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);display:flex;justify-content:space-between;align-items:center;padding:0 10%;z-index:1000;border-bottom:1px solid var(--line)}
+.logo{font-weight:700;font-size:18px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.links{display:flex;gap:26px;align-items:center}
+.links a{color:var(--text);text-decoration:none;font-size:13px;opacity:.85;transition:opacity .3s}
+.links a:hover{opacity:1}
+.menu-btn,.icon-btn{background:none;border:0;color:var(--text);font-size:20px;cursor:pointer}
+.menu-btn{display:none;font-size:26px}
+/* Botones */
+.btn{background:var(--text);color:var(--bg)!important;padding:8px 16px;border-radius:16px;font-size:13px;font-weight:600;border:0;cursor:pointer;text-decoration:none;opacity:1!important;transition:transform .2s}
+.btn:hover{transform:scale(1.05)}
+.btn.ghost{background:transparent;color:var(--text)!important;border:1px solid var(--text)}
+.btn[disabled]{opacity:.5!important;cursor:not-allowed;transform:none}
+/* Resplandor que sigue al mouse (la "magia" de fondo) */
+.glow{position:fixed;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(179,68,255,.2),transparent 60%);pointer-events:none;transform:translate(-50%,-50%);z-index:0;left:50%;top:30%}
+main,footer{position:relative;z-index:1}
+/* Portada */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 20px 50px}
+.hero h1{font-size:clamp(44px,8vw,84px);font-weight:700;letter-spacing:-.04em;margin-bottom:20px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(18px,2.5vw,24px);color:var(--muted);max-width:780px;line-height:1.4}
+.cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+/* Demo de subtitulado en vivo */
+.live{margin-top:44px;width:min(560px,100%);background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:26px;text-align:left;box-shadow:0 0 80px rgba(179,68,255,.22)}
+.live small{color:var(--accent);font-weight:600;display:flex;align-items:center;gap:8px}
+.live small::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff453a;animation:pulse 1.2s infinite}
+.live #cap{margin-top:14px;font-size:22px;color:var(--text);min-height:64px;line-height:1.4}
+@keyframes pulse{50%{opacity:.2}}
+/* Secciones y rejilla */
+.section{padding:110px 10%}
+.section.alt{background:var(--bg2)}
+.section h2{font-size:clamp(30px,5vw,48px);text-align:center;margin-bottom:56px;letter-spacing:-.02em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;max-width:1200px;margin:0 auto}
+.card{background:var(--surface);border-radius:28px;padding:36px;transition:transform .3s;border:1px solid var(--line)}
+.card:hover{transform:translateY(-4px)}
+.card h3{font-size:22px;margin-bottom:12px}
+.card p{font-size:16px;color:var(--muted);line-height:1.6}
+.step{font-size:44px;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat{text-align:center}.stat b{display:block;font-size:clamp(40px,6vw,64px);background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat span{color:var(--muted)}
+.blue{color:var(--accent)}.purple{color:#b344ff}.pink{color:#ff7ad9}
+/* Preguntas frecuentes */
+.faq{max-width:760px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line);padding:20px 0}
+.faq summary{cursor:pointer;font-size:19px;font-weight:600}
+.faq p{color:var(--muted);line-height:1.6;margin-top:12px}
+/* Formulario de lista de espera */
+.wl{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:520px;margin:0 auto}
+.wl input{flex:1;min-width:220px;padding:12px 18px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:16px}
+#wl-msg{text-align:center;margin-top:16px;color:var(--accent);min-height:24px}
+/* Páginas de texto (legales y empresa) */
+.doc{max-width:760px;margin:0 auto;padding:130px 6% 80px}
+.doc h1{font-size:clamp(34px,6vw,52px);letter-spacing:-.03em;margin-bottom:8px}
+.doc h2{font-size:24px;margin:38px 0 10px}
+.doc p,.doc li{color:var(--muted);line-height:1.75;font-size:17px;margin-bottom:12px}
+.doc ul{padding-left:22px}
+/* Tienda: barra, insignia, productos, carrito */
+.store-bar{position:sticky;top:48px;background:var(--navbg);backdrop-filter:blur(15px);border-bottom:1px solid var(--line);padding:14px 10%;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.soon{display:inline-block;font-size:12px;padding:3px 10px;border-radius:10px;background:rgba(179,68,255,.2);color:#b344ff}
+.product{text-align:center}.product .btn{margin-top:16px}
+.icon{width:90px;height:90px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--bg2)}
+.cart{position:fixed;top:48px;right:0;width:min(340px,100%);height:calc(100% - 48px);background:var(--bg2);border-left:1px solid var(--line);padding:24px;transform:translateX(100%);transition:transform .3s;z-index:1500;overflow:auto}
+.cart.open{transform:none}
+.cart li{display:flex;justify-content:space-between;list-style:none;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+/* Aviso de cookies */
+.ck{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:min(620px,94%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;z-index:2500;font-size:14px;color:var(--muted)}
+/* Pie de página en columnas */
+footer{background:var(--bg2);padding:56px 10% 30px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.9}
+.fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:28px;max-width:1200px;margin:0 auto 30px}
+footer h4{color:var(--text);font-size:13px;margin-bottom:8px}
+footer a{display:block;color:var(--muted);text-decoration:none}footer a:hover{color:var(--text)}
+.fine{max-width:1200px;margin:0 auto;border-top:1px solid var(--line);padding-top:20px}
+/* Aparición suave al hacer scroll */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+/* Móvil: menú desplegable */
+@media(max-width:800px){.menu-btn{display:block}
+.links{display:none;position:absolute;top:48px;left:0;right:0;flex-direction:column;background:var(--bg);padding:20px;gap:18px}
+.links.open{display:flex}nav{padding:0 5%}.section{padding:80px 5%}.store-bar,footer{padding-left:5%;padding-right:5%}}
+/* Sin animaciones si el sistema lo pide */
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+
+/* Tarjetas que son enlaces (unidades del portafolio) */
+a.card{display:block;text-decoration:none;color:inherit}
+.section .cta{margin-top:44px}
+.note{text-align:center;color:var(--muted);margin:-34px 0 36px}
+/* FODA: tarjetas desplegables */
+.foda summary{cursor:pointer;font-size:22px;font-weight:600}
+.foda ul{margin-top:14px;padding-left:20px;color:var(--muted);line-height:1.7}
+/* Organigrama */
+.org{max-width:900px;margin:0 auto;text-align:center}
+.node{background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:18px;padding:14px 20px;font-size:15px;font-weight:600;cursor:pointer;transition:border-color .3s}
+.node small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+.node:hover,.node.on{border-color:var(--accent)}
+.branch{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px;position:relative}
+.branch::before{content:"";position:absolute;top:-17px;left:10%;right:10%;border-top:2px solid var(--line)}
+#org-info{margin-top:28px;color:var(--accent);min-height:24px}
+/* Línea de tiempo */
+.tl{max-width:760px;margin:0 auto;border-left:2px solid var(--line);padding-left:30px}
+.tl>div{position:relative;margin-bottom:38px}
+.tl>div::before{content:"";position:absolute;left:-39px;top:8px;width:16px;height:16px;border-radius:50%;background:var(--grad)}
+.tl b{color:var(--accent);font-size:15px}.tl h3{font-size:22px;margin:4px 0}.tl p{color:var(--muted);line-height:1.6}

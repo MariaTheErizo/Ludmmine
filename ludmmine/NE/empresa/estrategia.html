@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FODA, organigrama y roadmap 2026–2030 de NE!"><title>NE! Estrategia</title><link rel="stylesheet" href="../css/style.css"></head>
+<body data-root="../"><a class="skip" href="#main">Saltar al contenido</a><header id="nav"></header>
+<main id="main">
+<section class="hero" style="min-height:60vh"><h1>Estrategia.</h1><p>FODA, organigrama y roadmap de NE! Network Experience.</p></section>
+<section class="section alt"><h2 class="rv">Análisis FODA.</h2><p class="note">Toca cada tarjeta para desplegarla.</p><div class="grid foda"><details class="card rv"><summary class="blue">Fortalezas</summary><ul><li>Latencia de voz a texto menor a 200 ms.</li><li>Audio procesado en el dispositivo: privacidad Zero-Log.</li><li>Motor en C++ con bajo uso de CPU.</li><li>Visión técnica y liderazgo del fundador.</li></ul></details><details class="card rv"><summary class="purple">Oportunidades</summary><ul><li>Creciente demanda de accesibilidad digital.</li><li>Gaming inclusivo, un nicho poco atendido.</li><li>Videollamadas y trabajo remoto en auge.</li><li>Un SDK permite llegar a muchos desarrolladores.</li></ul></details><details class="card rv"><summary class="pink">Debilidades</summary><ul><li>Proyecto en etapa temprana (MVP).</li><li>Recursos y equipo limitados.</li><li>Aún sin dispositivos físicos.</li><li>Marca nueva, sin reputación todavía.</li></ul></details><details class="card rv"><summary class="">Amenazas</summary><ul><li>Grandes tecnológicas con subtitulado propio.</li><li>Cambios en regulaciones de privacidad.</li><li>Dependencia de plataformas como Android.</li><li>Clientes que cambian requerimientos a mitad del sprint.</li></ul></details></div></section>
+<section class="section"><h2 class="rv">Organigrama.</h2><p class="note">Estructura propuesta. Toca un cuadro para ver sus funciones.</p>
+<div class="org rv"><button class="node" data-i="0">Dirección General<small>Leonardo Sebastián Rea Camarena</small></button>
+<div class="branch"><button class="node" data-i="1">Ingeniería</button><button class="node" data-i="2">Producto y Accesibilidad</button><button class="node" data-i="3">Comunidad y SDK</button><button class="node" data-i="4">Administración y Finanzas</button></div>
+<p id="org-info" role="status">Selecciona un área.</p></div></section>
+<section class="section alt"><h2 class="rv">Roadmap 2026–2030.</h2><div class="tl"><div class="rv"><b>2026</b><h3>Cimentación</h3><p>MVP del SDK de subtitulado y voz a texto.</p></div><div class="rv"><b>2027</b><h3>SDK y Gaming Engine</h3><p>Primeros desarrolladores integran NE! en sus productos.</p></div><div class="rv"><b>2028</b><h3>NE! OS (beta)</h3><p>Capa de accesibilidad nativa sobre Android (AOSP).</p></div><div class="rv"><b>2029</b><h3>Dispositivos</h3><p>Evaluar NE! Pods y Vision Band según el mercado.</p></div><div class="rv"><b>2030</b><h3>Estándar global</h3><p>Plataforma de referencia en accesibilidad digital.</p></div></div></section>
+</main><footer id="foot"></footer><script src="../js/app.js"></script>
+<script>
+// Organigrama: al tocar un cuadro se muestran las funciones del área
+const info=['Define la visión, estrategia y alianzas de NE!.','Motor de voz a texto en C++, latencia y rendimiento.','Diseño accesible y pruebas con personas usuarias.','Documentación del SDK y relación con desarrolladores.','Presupuesto, legal y control de resultados.'];
+$$('.node').forEach(b=>b.addEventListener('click',()=>{$$('.node').forEach(n=>n.classList.remove('on'));b.classList.add('on');$('#org-info').textContent=info[b.dataset.i];}));
+</script></body></html>
