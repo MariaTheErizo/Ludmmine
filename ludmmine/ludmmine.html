@@ -1,0 +1,3912 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Ludmmine | Estudio de videojuegos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+:root{
+  --black:#050307;
+  --dark:#0b0711;
+  --moon:#cbb6ff;
+  --moon-light:#eee6ff;
+  --moon-white:#ffffff;
+  --purple:#a57be8;
+  --purple-dark:#6c4aa8;
+  --lav:#d9ccf5;
+  --muted:#aaa0ba;
+  --border:rgba(203,182,255,.20);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+
+body{
+  background:
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(203,182,255,.09),
+      transparent 32%
+    ),
+    var(--black);
+  color:white;
+  font-family:'Figtree',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+  width:100%;
+  min-width:0;
+}
+
+img{
+  max-width:100%;
+  height:auto;
+}
+
+button,
+input,
+textarea{
+  font:inherit;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+h1,
+h2,
+h3{
+  font-family:'Unbounded',sans-serif;
+  line-height:1.1;
+}
+
+.wrap{
+  width:min(1150px,100%);
+  margin:0 auto;
+  padding-left:clamp(16px,4vw,32px);
+  padding-right:clamp(16px,4vw,32px);
+}
+
+.fireflies{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+
+.firefly{
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#ded1ff;
+  box-shadow:
+    0 0 6px #d8c8ff,
+    0 0 15px rgba(203,182,255,.8);
+  opacity:.35;
+  animation:
+    floatFirefly
+    var(--duration)
+    ease-in-out
+    infinite alternate;
+}
+
+@keyframes floatFirefly{
+
+  0%{
+    transform:
+      translate(0,0)
+      scale(.7);
+    opacity:.15;
+  }
+
+  50%{
+    opacity:.7;
+  }
+
+  100%{
+    transform:
+      translate(
+        var(--moveX),
+        var(--moveY)
+      )
+      scale(1.2);
+    opacity:.25;
+  }
+
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  width:100%;
+  background:rgba(5,3,7,.78);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+
+nav{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+}
+
+.logo img{
+  width:clamp(38px,4vw,48px);
+  height:clamp(38px,4vw,48px);
+  object-fit:contain;
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(203,182,255,.9)
+    )
+    drop-shadow(
+      0 0 20px
+      rgba(165,123,232,.5)
+    );
+}
+
+.logo-text{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(1.1rem,2vw,1.45rem);
+  letter-spacing:.06em;
+  color:white;
+}
+
+.logo-text span{
+  color:var(--moon);
+}
+
+nav ul{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(15px,2.5vw,34px);
+  list-style:none;
+  font-weight:600;
+  flex:1;
+}
+
+nav ul a{
+  color:#d7cfdf;
+  white-space:nowrap;
+  transition:.3s;
+}
+
+nav ul a:hover{
+  color:var(--moon);
+  text-shadow:
+    0 0 12px
+    rgba(203,182,255,.8);
+}
+
+.menu-toggle{
+  display:none;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid rgba(203,182,255,.35);
+  background:rgba(203,182,255,.08);
+  color:white;
+  cursor:pointer;
+  font-size:1.3rem;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:12px clamp(20px,3vw,30px);
+  border-radius:30px;
+  cursor:pointer;
+  font:600 1rem 'Figtree',sans-serif;
+  color:#21182d;
+  background:
+    linear-gradient(
+      135deg,
+      #b99bea,
+      #e9e0ff,
+      #bfa5f5
+    );
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:
+    0 0 12px rgba(203,182,255,.30),
+    0 0 35px rgba(165,123,232,.18),
+    inset 0 1px rgba(255,255,255,.8);
+  transition:.35s;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+  background:
+    linear-gradient(
+      135deg,
+      #d8c7ff,
+      #ffffff,
+      #c8b0f7
+    );
+  box-shadow:
+    0 0 18px rgba(203,182,255,.65),
+    0 0 45px rgba(203,182,255,.30);
+}
+
+.btn.alt{
+  color:var(--moon-light);
+  background:rgba(203,182,255,.04);
+  border:1px solid rgba(203,182,255,.45);
+  box-shadow:none;
+}
+
+.hero{
+  position:relative;
+  min-height:max(
+    620px,
+    calc(100vh - 76px)
+  );
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  padding:clamp(70px,10vw,120px) 0;
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(203,182,255,.20),
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(203,182,255,.08),
+      transparent 42%
+    );
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:clamp(300px,45vw,550px);
+  height:clamp(300px,45vw,550px);
+  right:clamp(-180px,-10vw,-80px);
+  top:50%;
+  transform:translateY(-50%);
+  border-radius:50%;
+  background:rgba(203,182,255,.08);
+  filter:blur(100px);
+}
+
+.hero-content{
+  position:relative;
+  z-index:3;
+  width:100%;
+  max-width:850px;
+  min-height:500px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hero-logo{
+  position:absolute;
+  width:clamp(350px,45vw,650px);
+  max-width:none;
+  right:clamp(-120px,2vw,-20px);
+  top:50%;
+  transform:translateY(-50%);
+  opacity:.16;
+  z-index:-1;
+  pointer-events:none;
+  filter:
+    drop-shadow(
+      0 0 20px
+      rgba(203,182,255,.7)
+    )
+    drop-shadow(
+      0 0 60px
+      rgba(165,123,232,.45)
+    );
+  animation:moonFloatBackground 8s ease-in-out infinite;
+}
+
+@keyframes moonFloatBackground{
+
+  0%,100%{
+    transform:
+      translateY(-50%)
+      scale(1);
+  }
+
+  50%{
+    transform:
+      translateY(-53%)
+      scale(1.04);
+  }
+
+}
+
+.eyebrow{
+  color:var(--moon);
+  text-transform:uppercase;
+  letter-spacing:clamp(.12em,.8vw,.25em);
+  font-size:clamp(.65rem,1vw,.75rem);
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:clamp(
+    2.2rem,
+    6vw,
+    5rem
+  );
+  font-weight:800;
+  max-width:850px;
+  overflow-wrap:break-word;
+  background:
+    linear-gradient(
+      110deg,
+      white 15%,
+      var(--moon-light) 45%,
+      var(--moon) 90%
+    );
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  max-width:650px;
+  margin:
+    clamp(20px,3vw,26px)
+    0
+    clamp(26px,4vw,36px);
+  color:#bcb2c9;
+  font-size:clamp(.98rem,1.5vw,1.15rem);
+}
+
+.hero .btn+.btn{
+  margin-left:10px;
+}
+
+.star{
+  position:absolute;
+  color:var(--moon-light);
+  opacity:.55;
+  animation:twinkle 4s infinite alternate;
+  z-index:2;
+}
+
+.star.one{
+  right:17%;
+  top:25%;
+}
+
+.star.two{
+  right:10%;
+  top:65%;
+}
+
+.star.three{
+  left:48%;
+  top:15%;
+}
+
+@keyframes twinkle{
+
+  from{
+    opacity:.2;
+    transform:scale(.7);
+  }
+
+  to{
+    opacity:.9;
+    transform:scale(1.15);
+    text-shadow:
+      0 0 18px
+      var(--moon);
+  }
+
+}
+
+section{
+  width:100%;
+  padding:clamp(65px,9vw,105px) 0;
+}
+
+h2{
+  font-size:clamp(
+    1.7rem,
+    4vw,
+    2.8rem
+  );
+  margin-bottom:14px;
+  overflow-wrap:break-word;
+}
+
+.lead{
+  color:var(--muted);
+  width:100%;
+  max-width:650px;
+  margin-bottom:clamp(30px,5vw,48px);
+}
+
+.games{
+  width:100%;
+  display:grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(
+        min(100%,250px),
+        1fr
+      )
+    );
+  gap:clamp(15px,2vw,22px);
+}
+
+.game{
+  min-width:0;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.015)
+    );
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+  transition:.35s;
+}
+
+.game:hover{
+  transform:translateY(-8px);
+  border-color:rgba(203,182,255,.55);
+  box-shadow:
+    0 15px 50px
+    rgba(203,182,255,.12);
+}
+
+.cover{
+  min-height:clamp(160px,20vw,210px);
+  display:flex;
+  align-items:flex-end;
+  padding:clamp(16px,3vw,22px);
+  font:
+    800
+    clamp(.95rem,2vw,1.3rem)
+    'Unbounded',sans-serif;
+}
+
+.c1{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,10,30,.15),
+      rgba(5,3,7,.65)
+    ),
+    url("conejo.png") center/cover no-repeat;
+}
+
+.c2{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(10,5,20,.15),
+      rgba(5,3,7,.65)
+    ),
+    url("cripta.png") center/cover no-repeat;
+}
+
+.cover{
+  min-height:clamp(160px,20vw,210px);
+  display:flex;
+  align-items:flex-end;
+  padding:clamp(16px,3vw,22px);
+  font:
+    800
+    clamp(.95rem,2vw,1.3rem)
+    'Unbounded',sans-serif;
+
+  color:white;
+  text-decoration:none;
+  cursor:pointer;
+
+  transition:
+    transform .35s ease,
+    filter .35s ease;
+}
+
+.cover:hover{
+  filter:brightness(1.15);
+  transform:scale(1.025);
+}
+
+.c3{
+  background:
+    radial-gradient(
+      circle at 75% 30%,
+      #b991f5,
+      transparent 18%
+    ),
+    linear-gradient(
+      145deg,
+      #09050e,
+      #49326b
+    );
+}
+
+.game div+div{
+  padding:clamp(17px,3vw,22px);
+}
+
+.game h3{
+  font-size:1rem;
+  margin-bottom:7px;
+}
+
+.game p{
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+.light{
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #eee7fa,
+      transparent 40%
+    ),
+    #eeeaf3;
+  color:#110b18;
+}
+
+.light .lead{
+  color:#635b70;
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(
+        min(100%,220px),
+        1fr
+      )
+    );
+  gap:clamp(15px,3vw,25px);
+  list-style:none;
+  counter-reset:s;
+}
+
+.steps li{
+  min-width:0;
+  counter-increment:s;
+  background:rgba(255,255,255,.58);
+  border:1px solid rgba(110,50,170,.14);
+  border-radius:18px;
+  padding:clamp(20px,3vw,25px);
+  transition:.3s;
+}
+
+.steps li:hover{
+  transform:translateY(-5px);
+  box-shadow:
+    0 15px 35px
+    rgba(70,30,100,.12);
+}
+
+.steps li::before{
+  content:counter(s);
+  display:block;
+  font:
+    800 2rem
+    'Unbounded',sans-serif;
+  color:var(--purple-dark);
+  margin-bottom:12px;
+}
+
+.steps h3{
+  font-size:1rem;
+  margin-bottom:8px;
+}
+
+.steps p{
+  color:#5e5668;
+  font-size:.95rem;
+}
+
+.clients{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.clients span{
+  padding:12px 20px;
+  border-radius:30px;
+  background:rgba(203,182,255,.06);
+  border:1px solid rgba(203,182,255,.25);
+  color:#d8cdea;
+  transition:.3s;
+}
+
+.clients span:hover{
+  color:white;
+  background:rgba(203,182,255,.14);
+  box-shadow:
+    0 0 20px
+    rgba(203,182,255,.16);
+}
+
+.contact{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 80% 40%,
+      rgba(203,182,255,.30),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #241a32,
+      #574477,
+      #24182f
+    );
+}
+
+.contact .lead{
+  color:#e4d9f3;
+}
+
+form{
+  display:grid;
+  gap:14px;
+  width:100%;
+  max-width:560px;
+}
+
+input,
+textarea{
+  width:100%;
+  min-width:0;
+  padding:16px 18px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.95);
+  color:#050307;
+  font:1rem 'Figtree',sans-serif;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+  outline:none;
+  border-color:var(--moon);
+  box-shadow:
+    0 0 15px
+    rgba(203,182,255,.4);
+}
+
+form .btn{
+  border:none;
+}
+
+.mobile-menu{
+  position:fixed;
+  top:65px;
+  right:15px;
+  width:min(280px,calc(100% - 30px));
+  padding:22px;
+  background:rgba(15,10,20,.96);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(203,182,255,.25);
+  border-radius:20px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.5),
+    0 0 30px rgba(203,182,255,.08);
+  display:none;
+  z-index:30;
+}
+
+.mobile-menu.active{
+  display:block;
+}
+
+.mobile-menu a{
+  display:block;
+  padding:13px 5px;
+  color:#ddd5e8;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.mobile-menu a:hover{
+  color:var(--moon);
+}
+
+footer{
+  width:100%;
+  padding:30px 0;
+  color:var(--muted);
+  font-size:.9rem;
+  border-top:1px solid var(--border);
+  background:#030204;
+}
+
+footer .wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+@media(max-width:900px){
+
+  nav{
+    min-height:70px;
+  }
+
+  nav ul{
+    gap:15px;
+    font-size:.88rem;
+  }
+
+  nav > .btn{
+    padding:10px 17px;
+    font-size:.85rem;
+  }
+
+  .hero{
+    min-height:600px;
+  }
+
+}
+
+@media(max-width:700px){
+
+  nav{
+    min-height:65px;
+  }
+
+  nav ul{
+    display:none;
+  }
+
+  nav > .btn{
+    display:none;
+  }
+
+  .menu-toggle{
+    display:block;
+  }
+
+  .hero{
+    min-height:auto;
+    padding:80px 0 90px;
+    text-align:center;
+  }
+
+  .hero-content{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:500px;
+  }
+
+  .hero-logo{
+    width:350px;
+    right:50%;
+    top:50%;
+    transform:translate(50%,-50%);
+    opacity:.10;
+  }
+
+  .hero h1{
+    font-size:clamp(
+      2rem,
+      10vw,
+      3.3rem
+    );
+  }
+
+  .hero p{
+    max-width:560px;
+  }
+
+  .hero .btn+.btn{
+    margin:10px 0 0;
+  }
+
+  .hero .btn{
+    width:min(100%,320px);
+  }
+
+  .star.one{
+    right:10%;
+  }
+
+  .star.two{
+    right:6%;
+  }
+
+  .star.three{
+    left:15%;
+  }
+
+  .clients{
+    justify-content:center;
+  }
+
+}
+
+@media(max-width:430px){
+
+  .wrap{
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  .logo img{
+    width:38px;
+    height:38px;
+  }
+
+  .logo-text{
+    font-size:1.05rem;
+  }
+
+  .hero{
+    padding:65px 0 80px;
+  }
+
+  .hero-logo{
+    width:280px;
+    right:50%;
+    top:50%;
+    transform:translate(50%,-50%);
+    opacity:.08;
+  }
+
+  .eyebrow{
+    font-size:.58rem;
+    letter-spacing:.10em;
+  }
+
+  .hero h1{
+    font-size:clamp(
+      1.9rem,
+      10vw,
+      2.7rem
+    );
+  }
+
+  .hero p{
+    font-size:.98rem;
+  }
+
+  .btn{
+    width:100%;
+    padding:13px 18px;
+  }
+
+  .games{
+    grid-template-columns:1fr;
+  }
+
+  .steps{
+    grid-template-columns:1fr;
+  }
+
+  .clients{
+    justify-content:flex-start;
+  }
+
+  .clients span{
+    font-size:.9rem;
+    padding:10px 16px;
+  }
+
+  footer .wrap{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+
+}
+
+@media(min-width:1600px){
+
+  .wrap{
+    max-width:1250px;
+  }
+
+  .hero{
+    min-height:750px;
+  }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  *{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition-duration:.01ms !important;
+  }
+
+}
+
+
+.partners {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.partner-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,.07),
+    rgba(165,123,232,.035)
+  );
+  transition: .35s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-7px);
+  border-color: var(--moon);
+  box-shadow: 0 12px 35px rgba(165,123,232,.18);
+}
+
+.partner-image {
+  height: 190px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle,
+    rgba(203,182,255,.16),
+    rgba(5,3,7,.7)
+  );
+  border-bottom: 1px solid var(--border);
+}
+
+.partner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(203,182,255,.2));
+}
+
+.partner-info {
+  padding: 23px;
+}
+
+.partner-info h3 {
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
+}
+
+.partner-info p {
+  color: var(--muted);
+  font-size: .95rem;
+  margin-bottom: 20px;
+}
+
+.partner-specialty {
+  display: inline-block;
+  color: var(--moon);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.partner-info .btn {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: .9rem;
+}
+
+@media(max-width: 850px) {
+  .partners {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media(max-width: 500px) {
+  .partners {
+    grid-template-columns: 1fr;
+  }
+
+  .partner-image {
+    height: 210px;
+  }
+}
+
+/* VALORES DE LUDMMINE Y COLABORADORES */
+
+.values-section {
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(165,123,232,.12),
+      transparent 35%
+    ),
+    var(--dark);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 22px;
+}
+
+.value-card {
+  padding: 25px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(203,182,255,.09),
+    rgba(255,255,255,.02)
+  );
+  transition: .3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--moon);
+  box-shadow: 0 12px 30px rgba(165,123,232,.12);
+}
+
+.value-icon {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.value-card h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--moon-light);
+}
+
+.value-card p {
+  color: var(--muted);
+  font-size: .94rem;
+}
+
+.company-label {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: var(--moon);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.values-intro {
+  margin-bottom: 40px;
+}
+
+.value-card ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.value-card li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: .94rem;
+}
+
+.value-card li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: var(--moon);
+}
+
+/* Imágenes del reporte de la Unidad II */
+.report-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Tarjetas del reporte */
+#unidad2 .collaborators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+#unidad2 .collaborator-card {
+    overflow: hidden;
+}
+
+/* ===== GESTIÓN DE PROYECTOS LUDMMINE ===== */
+
+#gestion {
+  background:
+    radial-gradient(circle at 15% 10%,
+      rgba(165,123,232,.13), transparent 35%),
+    var(--dark);
+}
+
+.pm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 25px 0;
+}
+
+.pm-stat, .pm-panel {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255,255,255,.035);
+}
+
+.pm-stat span {
+  display: block;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.pm-stat strong {
+  color: var(--moon);
+  font: 700 1.7rem 'Unbounded', sans-serif;
+}
+
+.pm-layout {
+  display: grid;
+  grid-template-columns: minmax(0,.8fr) minmax(0,1.4fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.pm-panel h3 {
+  font-size: 1rem;
+  margin-bottom: 18px;
+}
+
+.pm-form {
+  display: grid;
+  gap: 13px;
+  width: 100%;
+}
+
+.pm-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--lav);
+  font-size: .9rem;
+}
+
+.pm-form input,
+.pm-form select,
+.pm-filters input,
+.pm-filters select,
+.pm-task-controls select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #f8f5ff;
+  color: #21182d;
+}
+
+.pm-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.pm-list {
+  display: grid;
+  gap: 12px;
+}
+
+.pm-task {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(203,182,255,.04);
+  overflow-wrap: anywhere;
+}
+
+.pm-task h4 {
+  color: var(--moon-light);
+  font-size: 1rem;
+}
+
+.pm-task p {
+  color: var(--muted);
+  font-size: .87rem;
+  margin-top: 5px;
+}
+
+.pm-task-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.pm-task-controls select {
+  flex: 1;
+}
+
+.pm-delete {
+  padding: 8px 12px;
+  border: 1px solid #a75a75;
+  border-radius: 9px;
+  background: transparent;
+  color: #ffc0ce;
+  cursor: pointer;
+}
+
+.pm-empty, .pm-note {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.pm-note {
+  margin-top: 12px;
+}
+
+.pm-overdue {
+  color: #ff9eae !important;
+}
+
+.pm-completed h4 {
+  text-decoration: line-through;
+  opacity: .7;
+}
+
+@media (max-width: 800px) {
+  .pm-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pm-stats {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .pm-panel {
+    padding: 14px;
+  }
+
+  .pm-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .pm-stat strong {
+    font-size: 1.3rem;
+  }
+}
+/* ===== PROPUESTA ESTRATÉGICA ===== */
+#propuesta-estrategica {
+  background: radial-gradient(circle at 85% 15%, rgba(165,123,232,.14), transparent 34%), var(--dark);
+}
+
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.strategy-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255,255,255,.035);
+}
+
+.strategy-card .strategy-number {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--moon);
+  font: 700 .8rem 'Unbounded', sans-serif;
+  letter-spacing: .08em;
+}
+
+.strategy-card h3 {
+  margin-bottom: 10px;
+  color: var(--moon-light);
+  font-size: 1.05rem;
+}
+
+.strategy-card p {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.strategy-speech {
+  margin-top: 18px;
+  padding: clamp(20px, 4vw, 34px);
+  border: 1px solid rgba(203,182,255,.35);
+  border-radius: 18px;
+  background: rgba(203,182,255,.06);
+}
+
+.strategy-speech h3 {
+  margin-bottom: 14px;
+  color: var(--moon-light);
+}
+
+.strategy-speech p {
+  line-height: 1.9;
+}
+
+.strategy-outcome {
+  margin-top: 16px;
+  color: var(--moon);
+  font-weight: 600;
+}
+
+@media (max-width: 800px) {
+  .strategy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* IMÁGENES DEL PITCH ESTRATÉGICO */
+.pitch-images {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.pitch-image-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255,255,255,.035);
+}
+
+.pitch-image-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.pitch-image-card h3 {
+  padding: 14px 14px 6px;
+  color: var(--moon-light);
+  font-size: 1rem;
+}
+
+.pitch-image-card p {
+  padding: 0 14px 16px;
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 750px) {
+  .pitch-images {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+/* ===== UNIDAD IV: ADN ESTRATÉGICO Y PLANEACIÓN ===== */
+#adn-estrategico, #planeacion {
+  background:
+    radial-gradient(circle at 85% 12%, rgba(165,123,232,.13), transparent 34%),
+    var(--dark);
+}
+.adn-grid, .planning-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+  gap:18px;
+  margin:28px 0;
+}
+.adn-card, .planning-card {
+  min-width:0;
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:linear-gradient(145deg, rgba(203,182,255,.09), rgba(255,255,255,.025));
+  transition:.3s ease;
+}
+.adn-card:hover, .planning-card:hover {
+  transform:translateY(-5px);
+  border-color:var(--moon);
+  box-shadow:0 12px 30px rgba(165,123,232,.13);
+}
+.adn-card .card-icon, .planning-card .card-icon {
+  display:block;
+  font-size:1.8rem;
+  margin-bottom:14px;
+}
+.adn-card h3, .planning-card h3 {
+  color:var(--moon-light);
+  font-size:1.02rem;
+  margin-bottom:12px;
+}
+.adn-card p, .planning-card p, .planning-card li {
+  color:var(--muted);
+  font-size:.94rem;
+  line-height:1.75;
+}
+.adn-card ul, .planning-card ul {
+  padding-left:19px;
+  margin-top:10px;
+}
+.planning-card li { margin:7px 0; }
+.section-kicker {
+  color:var(--moon);
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.table-wrap {
+  width:100%;
+  overflow-x:auto;
+  margin:24px 0;
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+.planning-table {
+  width:100%;
+  min-width:620px;
+  border-collapse:collapse;
+  background:rgba(255,255,255,.025);
+}
+.planning-table th, .planning-table td {
+  padding:15px 16px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  color:#ded6e9;
+  vertical-align:top;
+}
+.planning-table th {
+  color:var(--moon-light);
+  background:rgba(203,182,255,.10);
+  font-family:'Unbounded',sans-serif;
+  font-size:.72rem;
+}
+.planning-table tr:last-child td { border-bottom:0; }
+.planning-table td strong { color:var(--moon); }
+.planning-note {
+  padding:22px;
+  border:1px solid rgba(203,182,255,.3);
+  border-radius:16px;
+  background:rgba(203,182,255,.055);
+  color:#e5dcef;
+  line-height:1.8;
+  margin-top:20px;
+}
+.planning-note strong { color:var(--moon-light); }
+@media(max-width:700px) {
+  .adn-card, .planning-card { padding:20px; }
+  .planning-table th, .planning-table td { padding:12px; }
+}
+
+
+/* MATRIZ FODA */
+.foda-section { padding: clamp(64px, 8vw, 105px) 0; }
+.foda-heading { text-align:center; max-width:820px; margin:0 auto 34px; }
+.foda-heading .eyebrow { color:var(--moon); letter-spacing:.16em; font-size:.72rem; font-weight:700; }
+.foda-heading h2 { margin:14px 0; font-size:clamp(1.8rem,4vw,2.8rem); }
+.foda-heading p { color:var(--muted); }
+.foda-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.foda-card { border:1px solid var(--border); border-radius:20px; padding:clamp(20px,3vw,30px); background:linear-gradient(145deg,rgba(203,182,255,.09),rgba(255,255,255,.018)); box-shadow:0 14px 40px rgba(0,0,0,.16); }
+.foda-card h3 { color:var(--moon-light); font-size:1.05rem; margin-bottom:8px; }
+.foda-card .foda-subtitle { color:var(--muted); font-size:.9rem; margin-bottom:18px; }
+.foda-card ul { padding-left:20px; color:#e5dcef; }
+.foda-card li { padding-left:5px; margin:0 0 13px; line-height:1.65; }
+.foda-card li:last-child { margin-bottom:0; }
+.foda-card.fo { border-top:3px solid #a9dfc0; }
+.foda-card.fa { border-top:3px solid #a9c9f2; }
+.foda-card.do { border-top:3px solid #e8d39a; }
+.foda-card.da { border-top:3px solid #e4a9c4; }
+.foda-matrix-note { margin-top:22px; padding:20px 22px; border:1px solid var(--border); border-radius:16px; background:rgba(203,182,255,.045); color:#e5dcef; line-height:1.75; }
+.foda-matrix-note strong { color:var(--moon-light); }
+@media(max-width:700px) { .foda-grid { grid-template-columns:1fr; } .foda-card { padding:22px; } }
+
+
+/* ===== UNIDAD V: LIDERAZGO Y DECISIONES DIRECTIVAS ===== */
+#toma-decisiones {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(165,123,232,.14), transparent 34%),
+    var(--dark);
+}
+.leadership-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));
+  gap:18px;
+  margin:28px 0;
+}
+.leadership-card {
+  padding:23px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(203,182,255,.09),rgba(255,255,255,.025));
+}
+.leadership-card h3 { color:var(--moon-light); font-size:1rem; margin-bottom:10px; }
+.leadership-card p, .leadership-card li { color:var(--muted); font-size:.94rem; line-height:1.75; }
+.leadership-card ul { padding-left:19px; margin-top:9px; }
+.leadership-card li { margin:5px 0; }
+.leadership-highlight {
+  margin:24px 0;
+  padding:22px;
+  border:1px solid rgba(203,182,255,.34);
+  border-radius:16px;
+  background:rgba(203,182,255,.055);
+  color:#e5dcef;
+  line-height:1.8;
+}
+.leadership-highlight strong { color:var(--moon-light); }
+.pm-form textarea {
+  width:100%;
+  min-height:88px;
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#f8f5ff;
+  color:#21182d;
+  resize:vertical;
+}
+.pm-task .pm-decision {
+  padding:10px 12px;
+  margin-top:9px;
+  border-left:2px solid var(--purple);
+  background:rgba(203,182,255,.06);
+  border-radius:0 8px 8px 0;
+}
+@media(max-width:700px) {
+  .leadership-card { padding:19px; }
+}
+
+
+/* ===== UNIDAD V: TABLERO DE CONTROL Y ALERTAS ===== */
+.kpi-dashboard { margin:28px 0 34px; padding:clamp(18px,3vw,28px); border:1px solid var(--border); border-radius:20px; background:linear-gradient(145deg,rgba(203,182,255,.075),rgba(255,255,255,.018)); }
+.kpi-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+.kpi-heading h3 { color:var(--moon-light); margin-bottom:6px; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:14px; margin:18px 0; }
+.kpi-card { border:1px solid var(--border); border-radius:15px; padding:17px; background:rgba(8,6,15,.35); }
+.kpi-card h4 { color:var(--moon-light); font-size:.96rem; margin-bottom:8px; }
+.kpi-value { display:block; font:700 1.8rem 'Unbounded',sans-serif; color:var(--moon); margin:8px 0; }
+.kpi-meta { color:var(--muted); font-size:.83rem; line-height:1.6; }
+.kpi-status { display:inline-block; margin-top:10px; padding:5px 9px; border-radius:99px; font-size:.75rem; border:1px solid var(--border); }
+.kpi-status.ok { color:#bce8cd; border-color:#527b64; background:rgba(75,150,100,.12); }
+.kpi-status.alert { color:#ffc0ce; border-color:#a75a75; background:rgba(167,90,117,.15); }
+.kpi-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.kpi-form-grid label { display:grid; gap:6px; color:var(--lav); font-size:.88rem; }
+.kpi-form-grid input,.kpi-form-grid select,.kpi-form-grid textarea { width:100%; padding:11px; border:1px solid var(--border); border-radius:10px; background:#f8f5ff; color:#21182d; }
+.kpi-form-grid textarea { min-height:76px; resize:vertical; }
+.kpi-alert-box { padding:15px 17px; margin:14px 0; border:1px solid var(--border); border-radius:13px; color:var(--muted); line-height:1.65; }
+.kpi-alert-box.has-alert { border-color:#a75a75; background:rgba(167,90,117,.12); color:#ffd8e0; }
+.kpi-history { display:grid; gap:8px; margin-top:14px; }
+.kpi-history-item { padding:10px 12px; border-radius:10px; background:rgba(203,182,255,.05); color:var(--muted); font-size:.84rem; }
+.kpi-history-item strong { color:var(--moon-light); }
+.pm-task .pm-alert-detail { color:#ffc0ce; border-left:2px solid #a75a75; padding-left:10px; }
+.pm-task .pm-kpi-detail { color:#d9c8ff; }
+.pm-db-note { margin:14px 0 22px; padding:13px 15px; border:1px dashed rgba(203,182,255,.35); border-radius:12px; color:var(--muted); font-size:.84rem; line-height:1.65; }
+@media(max-width:600px){ .kpi-form-grid{grid-template-columns:1fr;} .kpi-heading{display:block;} }
+
+
+/* Complementos de estructura y legibilidad */
+.org-chart { max-width:1000px; margin:24px auto 0; text-align:center; }
+.org-node { min-width:0; padding:18px; border:1px solid var(--border); border-radius:15px; background:linear-gradient(145deg,rgba(203,182,255,.12),rgba(255,255,255,.025)); }
+.org-node strong,.org-node span { display:block; }
+.org-node strong { color:var(--moon-light); margin-bottom:6px; }
+.org-node span { color:var(--muted); font-size:.9rem; }
+.org-director { max-width:360px; margin:auto; border-color:rgba(203,182,255,.6); }
+.org-connector { height:28px; width:2px; margin:auto; background:var(--purple); }
+.org-branches { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; position:relative; }
+.org-branches:before { content:""; position:absolute; height:2px; background:var(--purple); top:-14px; left:12.5%; right:12.5%; }
+.org-branches .org-node:before { content:""; display:block; width:2px; height:14px; margin:-32px auto 16px; background:var(--purple); }
+@media(max-width:800px){.org-branches{grid-template-columns:repeat(2,minmax(0,1fr));}.org-branches:before{display:none;}.org-branches .org-node:before{display:none;}}
+@media(max-width:480px){.org-branches{grid-template-columns:1fr;}}
+
+
+/* ===== UNIDAD VI: CONTROL FINANCIERO, AUDITORÍA Y PRESUPUESTO ===== */
+.unit6-section{padding:clamp(64px,8vw,105px) 0;background:radial-gradient(circle at 88% 8%,rgba(165,123,232,.13),transparent 32%),var(--dark)}
+.unit6-intro{max-width:850px;margin:0 auto 34px;text-align:center}
+.unit6-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr));gap:16px;margin:24px 0}
+.unit6-card{padding:22px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,rgba(203,182,255,.085),rgba(255,255,255,.02))}
+.unit6-card h3,.unit6-card h4{color:var(--moon-light);margin-bottom:10px}
+.unit6-card p,.unit6-card li{color:var(--muted);line-height:1.7;font-size:.93rem}
+.unit6-card ul{padding-left:19px}
+.unit6-card li{margin:5px 0}
+.unit6-block{margin-top:42px}
+.unit6-block>h3{color:var(--moon-light);font-size:1.25rem;margin-bottom:12px}
+.unit6-note{margin:18px 0;padding:17px 19px;border:1px solid rgba(203,182,255,.3);border-radius:14px;background:rgba(203,182,255,.055);color:#e5dcef;line-height:1.75}
+.unit6-note strong{color:var(--moon-light)}
+.u6-calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px;margin:18px 0}
+.u6-calc label{display:grid;gap:7px;color:var(--lav);font-size:.88rem}
+.u6-calc input,.u6-calc select,.u6-calc textarea{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:#f8f5ff;color:#21182d}
+.u6-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
+.u6-result{padding:17px;border:1px solid var(--border);border-radius:14px;background:rgba(8,6,15,.35)}
+.u6-result span{display:block;color:var(--muted);font-size:.82rem}
+.u6-result strong{display:block;color:var(--moon);font:700 1.35rem 'Unbounded',sans-serif;margin-top:8px;overflow-wrap:anywhere}
+.u6-status{display:inline-block;margin-top:10px;padding:5px 10px;border:1px solid var(--border);border-radius:99px;font-size:.78rem}
+.u6-status.ok{color:#bce8cd;border-color:#527b64;background:rgba(75,150,100,.12)}
+.u6-status.warn{color:#f3d79c;border-color:#a88a4b;background:rgba(168,138,75,.12)}
+.u6-status.bad{color:#ffc0ce;border-color:#a75a75;background:rgba(167,90,117,.15)}
+.u6-checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px;margin:16px 0}
+.u6-check{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--border);border-radius:12px;color:var(--muted);line-height:1.55;background:rgba(203,182,255,.035)}
+.u6-check input{margin-top:4px;accent-color:#a57be8}
+.u6-progress{height:9px;background:rgba(255,255,255,.09);border-radius:99px;overflow:hidden;margin:12px 0}
+.u6-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#a57be8,#eee6ff);transition:width .2s}
+@media(max-width:600px){.unit6-card{padding:18px}}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="fireflies">
+
+  <span
+    class="firefly"
+    style="
+      left:8%;
+      top:25%;
+      --moveX:30px;
+      --moveY:-40px;
+      --duration:5s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:15%;
+      top:70%;
+      --moveX:-20px;
+      --moveY:-50px;
+      --duration:7s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:28%;
+      top:35%;
+      --moveX:35px;
+      --moveY:20px;
+      --duration:6s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:42%;
+      top:75%;
+      --moveX:-30px;
+      --moveY:-35px;
+      --duration:8s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:55%;
+      top:25%;
+      --moveX:25px;
+      --moveY:40px;
+      --duration:5s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:68%;
+      top:65%;
+      --moveX:-40px;
+      --moveY:-30px;
+      --duration:7s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:78%;
+      top:30%;
+      --moveX:20px;
+      --moveY:50px;
+      --duration:6s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:88%;
+      top:75%;
+      --moveX:-25px;
+      --moveY:-40px;
+      --duration:8s;
+    ">
+  </span>
+
+  <span
+    class="firefly"
+    style="
+      left:94%;
+      top:18%;
+      --moveX:-30px;
+      --moveY:35px;
+      --duration:6s;
+    ">
+  </span>
+
+</div>
+
+<header>
+
+  <nav class="wrap">
+
+    <a href="#inicio" class="logo">
+
+      <img
+        src="logo.png"
+        alt="Logo de Ludmmine"
+      >
+
+      <span class="logo-text">
+        LUDM<span>MINE</span>
+      </span>
+
+    </a>
+
+    <ul>
+
+      <li>
+        <a href="#juegos">
+          Juegos
+        </a>
+      </li>
+
+      <li><a href="#proceso">Cómo trabajamos</a></li>
+      <li><a href="#organizacion">Organización</a></li>
+
+      <li>
+        <a href="#clientes">
+          Clientes
+        </a>
+      </li>
+
+      <li>
+        <a href="#colaboradores">
+          Colaboradores
+        </a>
+      </li>
+      <li>
+        <a href="#valores">Nuestros valores</a>
+      </li>
+      <li>
+        <a href="#foda">Matriz FODA</a>
+      </li>
+
+      <li>
+        <a href="#propuesta-estrategica">
+          Propuesta estratégica
+        </a>
+      </li>
+
+<li>
+  <a href="#toma-decisiones">
+    Mi liderazgo
+  </a>
+</li>
+      <li><a href="#tablero-control">Tablero de control</a></li>
+      <li><a href="#estandares-control">Estándares</a></li>
+      <li><a href="#gestion">Gestión de proyectos</a></li>
+<li>
+        <a href="#contacto">
+          Contacto
+        </a>
+      </li>
+
+    </ul>
+
+    <a href="#contacto" class="btn">
+      Haz tu pedido
+    </a>
+
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      aria-label="Abrir menú"
+    >
+      ☰
+    </button>
+
+  </nav>
+
+  <div
+    class="mobile-menu"
+    id="mobileMenu"
+  >
+
+    <a href="#juegos">
+      Juegos
+    </a>
+
+    <a href="#proceso">Cómo trabajamos</a>
+    <a href="#organizacion">Organización</a>
+
+    <a href="#clientes">
+      Clientes
+    </a>
+
+    <a href="#colaboradores">
+      Colaboradores
+    </a>
+
+    <a href="#valores">Nuestros valores</a>
+
+    <a href="#foda">
+      Matriz FODA
+    </a>
+
+
+    <a href="#propuesta-estrategica">
+  Propuesta estratégica
+</a>
+
+<a href="#toma-decisiones">
+  Mi liderazgo
+</a>
+<a href="#adn-estrategico">ADN estratégico</a>
+<a href="#planeacion">Planeación</a>
+<a href="#sistema-humano">Motivación y equipo</a>
+
+    <a href="#tablero-control">Tablero de control</a>
+    <a href="#estandares-control">Estándares</a>
+
+    <a href="#gestion">
+      Gestión de proyectos
+    </a>
+
+    <a href="#contacto">
+      Contacto
+    </a>
+
+  </div>
+
+</header>
+
+<main id="inicio">
+
+  <section class="hero">
+
+    <span class="star one">
+      ✦
+    </span>
+
+    <span class="star two">
+      ✧
+    </span>
+
+    <span class="star three">
+      ·
+    </span>
+
+    <div class="wrap">
+
+      <div class="hero-content">
+
+        <img
+          src="logo.png"
+          alt="Ludmmine"
+          class="hero-logo"
+        >
+
+        <div class="eyebrow">
+          ✦ DREAM • CREATE • PLAY ✦
+        </div>
+
+        <h1>
+          Donde las ideas
+          se convierten
+          en sueños jugables.
+        </h1>
+
+        <p>
+          Ludmmine diseña, desarrolla y lanza
+          videojuegos por encargo para PC,
+          consolas y dispositivos móviles.
+          Tú imaginas el mundo; nosotros
+          hacemos que cobre vida.
+        </p>
+
+        <div class="hero-buttons">
+
+          <a
+            href="#contacto"
+            class="btn"
+          >
+            ✦ Pide tu juego
+          </a>
+
+          <a
+            href="#juegos"
+            class="btn alt"
+          >
+            Ver nuestros juegos
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="juegos">
+
+    <div class="wrap">
+
+      <h2>
+        Juegos que hemos creado
+      </h2>
+
+      <p class="lead">
+        Una muestra de proyectos desarrollados
+        para nuestros clientes, cada uno creado
+        para convertir una idea en una experiencia.
+      </p>
+
+      <div class="games">
+      <article class="game">
+
+  <a href="conejo.mp4" class="cover c1" aria-label="Ver anuncio de Conejo 64">
+    Conejo 64
+  </a>
+
+  <div>
+    <h3>
+      Juego de plataformas
+    </h3>
+
+    <p>
+      Salta, corre y esquiva obstáculos
+      en un mundo lleno de color y acción.
+      Juego javificado (no jugable por el momento).
+    </p>
+
+  </div>
+
+</article>
+
+<article class="game">
+
+  <a href="cryptRunners.html" class="cover c2" aria-label="Abrir Crypt Runners">
+    Crypt Runners
+  </a>
+
+  <div>
+    <h3>
+      Acción cooperativa
+    </h3>
+
+    <p>
+      Explora mazmorras que cambian
+      en cada partida, solo o con amigos.
+    </p>
+  </div>
+
+</article>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section
+    id="proceso"
+    class="light"
+  >
+
+    <div class="wrap">
+
+      <h2>
+        Del pedido al lanzamiento
+      </h2>
+
+      <p class="lead">
+        Así convertimos el encargo de un cliente
+        en un videojuego terminado.
+      </p>
+
+      <ol class="steps">
+
+        <li>
+
+          <h3>
+            Recibimos tu pedido
+          </h3>
+
+          <p>
+            Defines género, plataforma,
+            público objetivo y fecha de entrega.
+          </p>
+
+        </li>
+
+        <li>
+
+          <h3>
+            Diseñamos el juego
+          </h3>
+
+          <p>
+            Creamos el concepto, el arte,
+            las mecánicas y un prototipo.
+          </p>
+
+        </li>
+
+        <li>
+
+          <h3>
+            Lo desarrollamos
+          </h3>
+
+          <p>
+            Programamos, diseñamos y probamos
+            el videojuego mientras mostramos avances.
+          </p>
+
+        </li>
+
+        <li>
+
+          <h3>
+            Lo lanzamos
+          </h3>
+
+          <p>
+            Entregamos el juego listo para publicar
+            y ofrecemos soporte posterior.
+          </p>
+
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+  <!-- UNIDAD I: PROCESO COMPLETO Y ESTRUCTURA ORGANIZACIONAL -->
+  <section id="organizacion" class="values-section">
+    <div class="wrap">
+      <p class="section-kicker">Unidad I · Organización de la empresa</p>
+      <h2>Proceso administrativo del servicio</h2>
+      <p class="lead">El trabajo de Ludmmine sigue seis etapas para convertir la solicitud del cliente en un videojuego entregado y con seguimiento.</p>
+      <ol class="steps">
+        <li><h3>Solicitud del cliente</h3><p>Recibimos la idea, plataforma, género, público, presupuesto estimado y fecha deseada.</p></li>
+        <li><h3>Análisis y cotización</h3><p>Evaluamos alcance, recursos, riesgos y calendario; presentamos propuesta, precio y condiciones.</p></li>
+        <li><h3>Diseño y planeación</h3><p>Definimos mecánicas, estilo visual, requisitos técnicos, responsables y entregables.</p></li>
+        <li><h3>Desarrollo y pruebas</h3><p>Programamos e integramos arte y sonido; realizamos pruebas de calidad, compatibilidad y seguridad.</p></li>
+        <li><h3>Entrega y facturación</h3><p>El cliente valida el producto, entregamos los archivos acordados y se realiza el cobro conforme al contrato.</p></li>
+        <li><h3>Soporte y evaluación</h3><p>Atendemos incidencias pactadas, recopilamos comentarios y documentamos mejoras para futuros proyectos.</p></li>
+      </ol>
+      <h3 style="font-size:1.15rem;margin:42px 0 18px;color:var(--moon-light)">Estructura organizacional de Ludmmine</h3>
+      <p class="lead">La Dirección coordina las cuatro áreas funcionales. En proyectos pequeños, una persona puede cubrir más de una función.</p>
+      <div class="org-chart">
+        <div class="org-node org-director"><strong>Dirección general</strong><span>Planeación, decisiones y coordinación</span></div>
+        <div class="org-connector"></div>
+        <div class="org-branches">
+          <article class="org-node"><strong>Desarrollo</strong><span>Programación, diseño, arte, pruebas y seguridad digital</span></article>
+          <article class="org-node"><strong>Finanzas y administración</strong><span>Presupuestos, costos, pagos y facturación</span></article>
+          <article class="org-node"><strong>Recursos humanos</strong><span>Selección, capacitación y clima laboral</span></article>
+          <article class="org-node"><strong>Marketing y atención al cliente</strong><span>Promoción, ventas, comunicación y soporte</span></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="clientes">
+
+    <div class="wrap">
+
+      <h2>
+        Nuestra experiencia
+      </h2>
+
+      <p class="lead">
+        Creamos experiencias para diferentes
+        plataformas y tipos de jugadores.
+      </p>
+
+      <div class="clients">
+
+        <span>
+          Xbox
+        </span>
+
+        <span>
+          PlayStation
+        </span>
+
+        <span>
+          Nintendo
+        </span>
+
+        <span>
+          Steam
+        </span>
+
+        <span>
+          PC
+        </span>
+
+        <span>
+          Mobile
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+  
+<section id="colaboradores">
+  <div class="wrap">
+
+    <h2>Nuestros aliados creativos</h2>
+
+    <p class="lead">
+      Conoce a las empresas que colaboran con Ludmmine
+      para crear videojuegos increíbles. Cada una aporta
+      su talento, tecnología y experiencia.
+    </p>
+
+    
+<div class="partners">
+
+  <!-- NE! -->
+  <article class="partner-card">
+    <div class="partner-image">
+      <img src="colaborador2.png" alt="Logo de NE!">
+    </div>
+    <div class="partner-info">
+      <span class="partner-specialty">Sistemas operativos</span>
+      <h3>NE!</h3>
+      <p>
+        Proyecto enfocado en la inclusión y accesibilidad
+        de personas con discapacidad mediante soluciones
+        relacionadas con sistemas operativos.
+      </p>
+      <a class="btn" href="NE!.pdf">Abrir</a>
+    </div>
+  </article>
+
+  <!-- SECURITY FOX -->
+  <article class="partner-card">
+    <div class="partner-image">
+      <img src="colaborador1.jpeg" alt="Logo de Security Fox">
+    </div>
+    <div class="partner-info">
+      <span class="partner-specialty">Ciberseguridad</span>
+      <h3>Security Fox</h3>
+      <p>
+        Empresa enfocada en la creación de software
+        de ciberseguridad para ayudar a proteger
+        sistemas e información.
+      </p>
+      <a class="btn" href="secfox.pdf">Abrir</a>
+    </div>
+  </article>
+
+  <!-- SIKSEC -->
+  <article class="partner-card">
+    <div class="partner-image">
+      <img src="colaborador3.jpeg" alt="Logo de Siksec">
+    </div>
+    <div class="partner-info">
+      <span class="partner-specialty">Ciberseguridad</span>
+      <h3>Siksec</h3>
+      <p>
+        Empresa orientada al desarrollo de software
+        de seguridad para proteger información,
+        fortalecer la confianza y cuidar los datos.
+      </p>
+      <a class="btn" href="SIKSEC.pdf">Abrir</a>
+    </div>
+  </article>
+
+  <!-- GRAFIPRO -->
+  <article class="partner-card">
+    <div class="partner-image">
+      <img src="colaborador5.jpeg" alt="Logo de Grafipro">
+    </div>
+    <div class="partner-info">
+      <span class="partner-specialty">Diseño gráfico</span>
+      <h3>Grafipro</h3>
+      <p>
+        Proyecto conceptual de un software destinado
+        a diseñadores gráficos, pensado para apoyar
+        sus procesos creativos.
+      </p>
+      <a class="btn" href="grafipro.pdf">Abrir</a>
+    </div>
+  </article>
+
+  <!-- AZRAEL ENTERTAINMENT -->
+  <article class="partner-card">
+    <div class="partner-image">
+      <img src="colaborador4.jpeg"
+           alt="Logo de Azrael Entertainment">
+    </div>
+    <div class="partner-info">
+      <span class="partner-specialty">
+        Desarrollo de videojuegos
+      </span>
+      <h3>Azrael Entertainment</h3>
+      <p>
+        Enfoque en la creación y comercialización
+        de conceptos para videojuegos, incluyendo
+        ideas originales y biblias de juego.
+      </p>
+      <a class="btn" href="azrael.pdf">Abrir</a>
+    </div>
+  </article>
+
+</div>
+</section>
+
+
+<section id="valores" class="values-section">
+  <div class="wrap">
+
+    <h2>Nuestros valores</h2>
+
+    <p class="lead values-intro">
+      En Ludmmine creemos que los mejores videojuegos
+      nacen de la creatividad, la confianza y el trabajo
+      en equipo. Junto con nuestros colaboradores,
+      compartimos principios que guían cada proyecto.
+    </p>
+
+    <!-- VALORES DE LUDMMINE -->
+
+    <h3 style="font-size:1.15rem; margin-bottom:22px;">
+      ✦ La esencia de Ludmmine
+    </h3>
+
+    <div class="values-grid">
+
+      <article class="value-card">
+        <div class="value-icon">🌙</div>
+        <h3>Creatividad e innovación</h3>
+        <p>
+          Transformamos ideas originales en experiencias
+          interactivas, explorando nuevas tecnologías
+          y formas de jugar.
+        </p>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon">💎</div>
+        <h3>Calidad y excelencia</h3>
+        <p>
+          Buscamos que cada videojuego tenga una
+          experiencia cuidada, funcional y memorable,
+          prestando atención a cada detalle.
+        </p>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon">🤝</div>
+        <h3>Colaboración</h3>
+        <p>
+          Escuchamos las ideas de nuestros clientes
+          y colaboradores, valorando las habilidades
+          de cada integrante del equipo.
+        </p>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon">♿</div>
+        <h3>Inclusión y accesibilidad</h3>
+        <p>
+          Procuramos diseñar experiencias accesibles
+          para personas con diferentes necesidades
+          y formas de interactuar.
+        </p>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon">🛡️</div>
+        <h3>Responsabilidad y confianza</h3>
+        <p>
+          Actuamos con honestidad, respetamos los
+          acuerdos y protegemos la información
+          de nuestros clientes.
+        </p>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon">🚀</div>
+        <h3>Aprendizaje continuo</h3>
+        <p>
+          Aprendemos de cada proyecto, aceptamos
+          nuevos desafíos y mejoramos constantemente
+          nuestros procesos.
+        </p>
+      </article>
+
+    </div>
+
+    <!-- VALORES DE LOS COLABORADORES -->
+
+    <h3 style="font-size:1.15rem; margin:65px 0 22px;">
+      ✦ Los valores de nuestros colaboradores
+    </h3>
+
+    
+<div class="values-grid">
+
+  <!-- NE! -->
+  <article class="value-card">
+    <span class="company-label">Sistemas operativos</span>
+    <h3>NE!</h3>
+
+    <ul>
+      <li>Innovación y excelencia</li>
+      <li>Empatía y respeto</li>
+      <li>Confidencialidad</li>
+    </ul>
+  </article>
+
+  <!-- SECURITY FOX -->
+  <article class="value-card">
+    <span class="company-label">Ciberseguridad</span>
+    <h3>Security Fox</h3>
+
+    <ul>
+      <li>Seguridad</li>
+      <li>Innovación</li>
+      <li>Trabajo en equipo</li>
+      <li>Responsabilidad</li>
+    </ul>
+  </article>
+
+  <!-- SIKSEC -->
+  <article class="value-card">
+    <span class="company-label">Ciberseguridad</span>
+    <h3>Siksec</h3>
+
+    <ul>
+      <li>Compromiso con la misión y los valores</li>
+      <li>Confianza y libertad creativa</li>
+      <li>Aprendizaje y adaptación continua</li>
+      <li>Manejo del estrés y resiliencia</li>
+    </ul>
+  </article>
+
+  <!-- GRAFIPRO -->
+  <article class="value-card">
+    <span class="company-label">Diseño gráfico</span>
+    <h3>Grafipro</h3>
+
+    <ul>
+      <li>Innovación</li>
+      <li>Trabajo en equipo</li>
+      <li>Responsabilidad</li>
+    </ul>
+  </article>
+
+  <!-- AZRAEL ENTERTAINMENT -->
+  <article class="value-card">
+    <span class="company-label">
+      Desarrollo de videojuegos
+    </span>
+    <h3>Azrael Entertainment</h3>
+
+    <ul>
+      <li>Iniciativa y visión de negocio</li>
+      <li>Creatividad</li>
+      <li>Colaboración</li>
+      <li>Perseverancia</li>
+    </ul>
+  </article>
+
+</div>
+<!-- REPORTE FINAL DE LA UNIDAD II -->
+<section id="unidad2" class="section">
+
+    <div class="section-title">
+        <h2>Reporte de la Unidad II</h2>
+        <p>Entorno externo, medio interno, cultura corporativa y globalización</p>
+    </div>
+
+    <div class="collaborators-grid">
+
+        <!-- ENTORNO CERCANO -->
+        <article class="collaborator-card">
+            <img
+                src="entorno_cercano.jpg"
+                alt="Colaboración entre empresas y clientes"
+                class="report-image"
+            >
+
+            <h3>Entorno cercano</h3>
+
+            <p>
+                Ludmmine se relaciona con clientes, empresas y emprendedores
+                que solicitan videojuegos, competidores del sector, proveedores
+                tecnológicos, distribuidores como Steam, Xbox y PlayStation,
+                y socios que colaboran en el desarrollo y la publicidad.
+            </p>
+        </article>
+
+        <!-- ENTORNO GENERAL -->
+        <article class="collaborator-card">
+            <img
+                src="entorno_general.jpg"
+                alt="Tecnología y tendencias del mercado de videojuegos"
+                class="report-image"
+            >
+
+            <h3>Entorno general</h3>
+
+            <p>
+                Ludmmine está influenciada por los avances tecnológicos,
+                los costos de desarrollo, los gustos de los jugadores,
+                las leyes de derechos de autor y protección de datos,
+                y la competencia entre desarrolladoras.
+            </p>
+        </article>
+
+        <!-- MEDIO INTERNO -->
+        <article class="collaborator-card">
+            <img
+                src="medio_interno.jpg"
+                alt="Equipo de desarrollo trabajando en videojuegos"
+                class="report-image"
+            >
+
+            <h3>Medio interno</h3>
+
+            <p>
+                Ludmmine cuenta con colaboradores, computadoras,
+                herramientas digitales y motores gráficos. La organización
+                y el trabajo en equipo permiten desarrollar videojuegos
+                de calidad y cumplir con las fechas de entrega.
+            </p>
+        </article>
+
+        <!-- CULTURA CORPORATIVA -->
+        <article class="collaborator-card">
+            <img
+                src="cultura_corporativa.jpg"
+                alt="Equipo creativo compartiendo ideas"
+                class="report-image"
+            >
+
+            <h3>Cultura corporativa</h3>
+
+            <p>
+                Nuestra cultura se basa en la creatividad, innovación,
+                colaboración, responsabilidad y compromiso. Fomentamos
+                la comunicación, el respeto, el aprendizaje y la participación
+                de cada integrante para crear videojuegos originales.
+            </p>
+        </article>
+
+        <!-- GLOBALIZACIÓN -->
+        <article class="collaborator-card">
+            <img
+                src="globalizacion.jpg"
+                alt="Conexión internacional de la industria de videojuegos"
+                class="report-image"
+            >
+
+            <h3>Globalización</h3>
+
+            <p>
+                Internet permite a Ludmmine colaborar con especialistas
+                de otros países y ofrecer servicios internacionales.
+                También facilita el acceso a nuevas tecnologías y mercados,
+                aunque exige competir globalmente y mantener la calidad
+                y la seguridad digital.
+            </p>
+        </article>
+
+    </div>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:38px 0 12px">Relación entre el medio interno y el entorno</h3>
+    <p class="lead">Las capacidades de Ludmmine deben aprovechar oportunidades y responder a los retos externos.</p>
+    <div class="table-wrap"><table class="planning-table"><thead><tr><th>Fortaleza interna</th><th>Oportunidad o reto externo</th><th>Relación y respuesta</th></tr></thead><tbody>
+      <tr><td>Equipo creativo y conocimientos de programación.</td><td>Crecimiento del mercado de videojuegos y demanda de experiencias personalizadas.</td><td>Desarrollar prototipos originales y mostrar portafolio para atraer clientes.</td></tr>
+      <tr><td>Colaboradores especializados en diseño y seguridad digital.</td><td>Mayor importancia de la protección de datos y la confianza de los usuarios.</td><td>Integrar revisiones de seguridad y accesibilidad desde el diseño.</td></tr>
+      <tr><td>Uso de herramientas digitales y trabajo remoto.</td><td>Acceso a clientes y especialistas de otros países.</td><td>Coordinar reuniones y entregables digitales, considerando idioma, horarios y contratos.</td></tr>
+    </tbody></table></div>
+    <div class="planning-note"><strong>¿Los recursos actuales son suficientes?</strong> Para iniciar proyectos pequeños y crear un MVP, sí pueden ser suficientes si se priorizan funciones, se distribuye el trabajo y se aprovechan las alianzas. Para atender varios proyectos grandes o competir en mercados internacionales, todavía se necesitarían más personal, equipo, presupuesto, experiencia comercial y procesos formales. Por eso el crecimiento debe ser gradual y depender de la demanda real.</div>
+</section>
+
+<!-- PROPUESTA ESTRATÉGICA PARA LA EXPOSICIÓN -->
+
+<!-- IMÁGENES DEL PITCH EJECUTIVO -->
+<div class="pitch-images">
+
+  <article class="pitch-image-card">
+    <img src="./estrategia_1.png"
+     alt="Problema estratégico de Ludmmine">
+    <h3>01. El problema estratégico</h3>
+    <p>
+      La falta de coordinación entre programación,
+      diseño gráfico y ciberseguridad puede generar
+      retrasos y costos adicionales.
+    </p>
+  </article>
+
+  <article class="pitch-image-card">
+    <img src="./estrategia_2.jpg"
+         alt="Entorno directivo y organización del equipo">
+    <h3>02. Entorno directivo</h3>
+    <p>
+      Analizamos los riesgos, los costos y las
+      consecuencias de nuestras decisiones.
+    </p>
+  </article>
+
+  <article class="pitch-image-card">
+    <img src="./estrategia_3.jpg"
+         alt="Planificación de proyectos de Ludmmine">
+    <h3>03. Método y solución</h3>
+    <p>
+      Aplicamos los siete pasos de toma de decisiones
+      para mejorar la organización del trabajo.
+    </p>
+  </article>
+
+</div>
+<section id="propuesta-estrategica" class="section">
+  <div class="wrap">
+    <p class="eyebrow">PLANEACIÓN Y TOMA DE DECISIONES</p>
+    <h2>Propuesta estratégica de Ludmmine</h2>
+    <p class="lead">Una solución para mejorar la coordinación del equipo, cumplir las entregas y cuidar el presupuesto sin aumentar costos innecesarios.</p>
+
+    <div class="strategy-grid">
+      <article class="strategy-card">
+        <span class="strategy-number">01 · PROBLEMA</span>
+        <h3>Un cuello de botella</h3>
+        <p>La falta de coordinación entre programación, diseño gráfico y ciberseguridad puede retrasar el desarrollo de los videojuegos, provocar errores y afectar tanto la calidad del producto como el presupuesto.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">02 · SOLUCIÓN</span>
+        <h3>Organización del trabajo</h3>
+        <p>Asignar responsables y fechas límite, definir prioridades, realizar reuniones breves de seguimiento y utilizar una herramienta de gestión para que todas las áreas conozcan el avance y los pendientes.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">03 · RESULTADO ESPERADO</span>
+        <h3>Entregas más claras</h3>
+        <p>Con una mejor comunicación podemos detectar riesgos antes, distribuir mejor los recursos, reducir retrabajos y tomar decisiones técnicas y financieras con información más clara.</p>
+      </article>
+    </div>
+
+    <div class="strategy-speech">
+      <p class="eyebrow">GUION PARA EXPONER</p>
+      <h3>¿Qué proponemos en Ludmmine?</h3>
+      <p>En Ludmmine identificamos un problema estratégico: la falta de coordinación entre las áreas de programación, diseño gráfico y ciberseguridad. Cuando cada área trabaja sin suficiente comunicación, pueden aparecer retrasos, errores y gastos que afectan la entrega y la calidad de nuestros videojuegos.</p>
+      <p>Para resolverlo, proponemos organizar las tareas con responsables definidos, fechas límite y prioridades. También realizaremos reuniones breves para revisar avances y utilizaremos una herramienta de gestión que permita consultar el estado de cada tarea. Así podremos detectar problemas a tiempo y coordinar mejor el trabajo.</p>
+      <p>Esta propuesta relaciona la planeación, la organización interna y la toma de decisiones, porque nos ayuda a elegir qué atender primero y cómo aprovechar los recursos disponibles. Como equipo directivo, debemos considerar tanto la calidad técnica como los costos, sin invertir en recursos adicionales si podemos mejorar primero nuestros procesos.</p>
+      <p class="strategy-outcome">Nuestro objetivo es que Ludmmine trabaje de manera más coordinada, cumpla sus entregas y desarrolle videojuegos de calidad de forma responsable y sostenible.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ACTIVIDAD: RESOLVIENDO UN CUELLO DE BOTELLA -->
+<section id="proceso-decision" class="section">
+  <div class="wrap">
+    <p class="eyebrow">ACTIVIDAD · TOMA DE DECISIONES DIRECTIVAS</p>
+    <h2>Resolviendo un cuello de botella en Ludmmine</h2>
+    <p class="lead">Aplicamos los siete pasos del proceso de toma de decisiones al retraso en el desarrollo de videojuegos por falta de coordinación entre programación, diseño gráfico y ciberseguridad.</p>
+
+    <div class="strategy-grid">
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 01</span>
+        <h3>Identificar el problema</h3>
+        <p>La falta de coordinación entre las áreas provoca retrasos, errores y tareas que deben repetirse durante el desarrollo de los videojuegos.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 02</span>
+        <h3>Definir los criterios</h3>
+        <p>Consideramos el tiempo de entrega, los costos, la calidad del videojuego y la seguridad digital del proyecto.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 03</span>
+        <h3>Priorizar los criterios</h3>
+        <p>Damos mayor importancia al tiempo de entrega y a la calidad. La seguridad es indispensable y también debemos cuidar el presupuesto.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 04</span>
+        <h3>Proponer alternativas</h3>
+        <p>Podemos contratar más colaboradores, reorganizar las tareas o implementar una herramienta de gestión con reuniones breves de seguimiento.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 05</span>
+        <h3>Analizar las alternativas</h3>
+        <p>Contratar personal puede elevar los costos. Reorganizar tareas ayuda, pero una herramienta compartida facilita el seguimiento y la comunicación entre las áreas.</p>
+      </article>
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 06</span>
+        <h3>Elegir la solución</h3>
+        <p>Elegimos utilizar una herramienta de gestión, asignar responsables y fechas límite, establecer prioridades y realizar reuniones breves de coordinación.</p>
+      </article>
+    </div>
+
+    <div class="strategy-grid" style="grid-template-columns:1fr;">
+      <article class="strategy-card">
+        <span class="strategy-number">PASO 07</span>
+        <h3>Implementar y evaluar</h3>
+        <p>Registraremos las tareas y sus responsables, revisaremos los avances semanalmente y ajustaremos la organización cuando sea necesario. Evaluaremos si disminuyen los retrasos y los retrabajos sin aumentar gastos innecesarios.</p>
+      </article>
+    </div>
+
+    <div class="strategy-speech">
+      <p class="eyebrow">CRITERIOS QUE PESARON MÁS</p>
+      <h3>¿Por qué elegimos esta solución?</h3>
+      <p>Los criterios decisivos fueron el tiempo de entrega, la calidad y los costos. La seguridad digital se mantiene como una condición indispensable. Por eso preferimos mejorar primero la organización del trabajo con responsables, fechas y seguimiento, en lugar de contratar personal de inmediato o aumentar el presupuesto.</p>
+      <p class="strategy-outcome">Resultado esperado: mejorar la coordinación entre las áreas, anticipar problemas y entregar videojuegos de calidad en el plazo previsto, aprovechando mejor los recursos disponibles.</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding-bottom:34px">
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:30px 0 10px">Matriz de decisión ponderada</h3>
+    <p class="lead">Calificamos cada alternativa de 1 (muy desfavorable) a 5 (muy favorable). Los pesos reflejan la importancia de cada criterio y suman 100%.</p>
+    <div class="table-wrap"><table class="planning-table"><thead><tr><th>Criterio</th><th>Peso</th><th>Contratar personal</th><th>Reorganizar tareas</th><th>Herramienta + seguimiento</th></tr></thead><tbody>
+      <tr><td>Tiempo de implementación</td><td>30%</td><td>2</td><td>4</td><td>4</td></tr>
+      <tr><td>Costo</td><td>25%</td><td>1</td><td>5</td><td>4</td></tr>
+      <tr><td>Calidad y coordinación</td><td>25%</td><td>4</td><td>3</td><td>5</td></tr>
+      <tr><td>Seguridad y control</td><td>20%</td><td>3</td><td>3</td><td>4</td></tr>
+      <tr><td><strong>Total ponderado / 5</strong></td><td><strong>100%</strong></td><td><strong>2.40</strong></td><td><strong>3.85</strong></td><td><strong>4.25</strong></td></tr>
+    </tbody></table></div>
+    <div class="planning-note"><strong>Decisión:</strong> la alternativa con mayor puntuación es implementar una herramienta de gestión acompañada de responsables, fechas y reuniones breves (4.25/5). Las calificaciones son una estimación directiva para comparar opciones y deberán revisarse con datos reales de cada proyecto.</div>
+  </div>
+</section>
+
+
+<!-- UNIDAD IV: ACTIVIDAD 1 -->
+<section id="adn-estrategico" class="section">
+  <div class="wrap">
+    <p class="section-kicker">Unidad IV · Actividad 1</p>
+    <h2>El ADN estratégico de Ludmmine</h2>
+    <p class="lead">Los cimientos que orientan nuestras decisiones, el desarrollo de videojuegos y el crecimiento de la empresa.</p>
+
+    <div class="adn-grid">
+      <article class="adn-card">
+        <span class="card-icon">🌙</span>
+        <h3>Misión</h3>
+        <p>En Ludmmine desarrollamos videojuegos creativos e innovadores que convierten las ideas de nuestros clientes en experiencias interactivas de calidad. Trabajamos mediante la tecnología, el diseño y la programación para ofrecer proyectos que cumplan con las necesidades y expectativas de cada cliente.</p>
+      </article>
+      <article class="adn-card">
+        <span class="card-icon">✨</span>
+        <h3>Visión</h3>
+        <p>Ser una empresa reconocida a nivel nacional e internacional por la creación de videojuegos originales y de calidad, estableciendo alianzas con profesionales, inversionistas y especialistas en tecnología y seguridad digital.</p>
+      </article>
+      <article class="adn-card">
+        <span class="card-icon">🎯</span>
+        <h3>Objetivos a corto plazo · 1 a 6 meses</h3>
+        <ul>
+          <li>Desarrollar y presentar un videojuego como producto mínimo viable (MVP).</li>
+          <li>Crear una página web oficial para dar a conocer los servicios.</li>
+          <li>Conseguir los primeros clientes y colaboradores.</li>
+          <li>Probar el videojuego para detectar y corregir errores.</li>
+        </ul>
+      </article>
+      <article class="adn-card">
+        <span class="card-icon">🚀</span>
+        <h3>Objetivos a mediano plazo · 6 a 12 meses</h3>
+        <ul>
+          <li>Conseguir contratos con nuevos clientes.</li>
+          <li>Ampliar el equipo de programación, diseño y seguridad digital.</li>
+          <li>Desarrollar videojuegos para diferentes plataformas.</li>
+          <li>Establecer alianzas con empresas e inversionistas.</li>
+        </ul>
+      </article>
+      <article class="adn-card">
+        <span class="card-icon">💜</span>
+        <h3>Estrategia principal</h3>
+        <p>La estrategia de Ludmmine será la diferenciación por diseño y creatividad. Buscamos destacar mediante videojuegos personalizados, estilos visuales originales, mecánicas innovadoras y experiencias adaptadas a cada cliente. También ofreceremos atención personalizada, comunicación constante y cumplimiento de las fechas de entrega.</p>
+      </article>
+    </div>
+    <div class="planning-note"><strong>Metas medibles para el primer año:</strong><ul><li>En los primeros 3 meses: publicar un MVP funcional y documentar al menos 5 pruebas con usuarios.</li><li>En 6 meses: presentar el portafolio a 10 posibles clientes y obtener al menos 2 propuestas comerciales formales.</li><li>En 12 meses: buscar concretar 3 proyectos pagados y mantener un cumplimiento mínimo del 90% de los hitos acordados.</li><li>Responsable: Dirección, con apoyo de Desarrollo, Marketing, Finanzas y Atención al cliente. Las metas se revisarán mensualmente y se ajustarán según presupuesto y capacidad real.</li></ul></div>
+  </div>
+</section>
+
+<!-- UNIDAD IV: ACTIVIDAD 2 -->
+<section id="planeacion" class="section">
+  <div class="wrap">
+    <p class="section-kicker">Unidad IV · Actividad 2</p>
+    <h2>La pirámide de planeación de Ludmmine</h2>
+    <p class="lead">Organizamos las metas de la empresa en tres niveles: estratégico, táctico y operativo.</p>
+
+    <article class="planning-card">
+      <span class="card-icon">🔭</span>
+      <h3>1. Objetivo estratégico · Largo plazo</h3>
+      <p>Consolidar a Ludmmine como una empresa desarrolladora de videojuegos reconocida por su creatividad, calidad e innovación, logrando conseguir clientes, colaboradores e inversionistas durante el próximo año.</p>
+    </article>
+
+    <div class="planning-grid">
+      <article class="planning-card">
+        <span class="card-icon">🎮</span>
+        <h3>2. Plan táctico · Desarrollo de videojuegos</h3>
+        <ul>
+          <li>Diseñar videojuegos originales y personalizados.</li>
+          <li>Mejorar la calidad gráfica y las mecánicas de juego.</li>
+          <li>Realizar pruebas para detectar errores.</li>
+          <li>Incorporar medidas de seguridad digital.</li>
+        </ul>
+      </article>
+      <article class="planning-card">
+        <span class="card-icon">🌐</span>
+        <h3>2. Plan táctico · Marketing y crecimiento</h3>
+        <ul>
+          <li>Mantener activa la página web de Ludmmine.</li>
+          <li>Promocionar los proyectos en redes sociales.</li>
+          <li>Buscar clientes e inversionistas.</li>
+          <li>Establecer colaboraciones con profesionales de programación y seguridad digital.</li>
+        </ul>
+      </article>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin:42px 0 10px; color:var(--moon-light);">3. Plan operativo · Cronograma de dos semanas</h3>
+    <p class="lead">Actividades iniciales para avanzar en el producto mínimo viable (MVP).</p>
+    <div class="table-wrap">
+      <table class="planning-table">
+        <thead>
+          <tr><th>Periodo</th><th>Actividad</th><th>Responsable</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Semana 1 · Días 1 y 2</td><td>Definir las características y mecánicas principales del videojuego.</td><td>Dirección y desarrollo</td></tr>
+          <tr><td>Semana 1 · Días 3 y 4</td><td>Diseñar y programar la interfaz y los personajes.</td><td>Diseño y programación</td></tr>
+          <tr><td>Semana 1 · Día 5</td><td>Integrar las mecánicas principales del videojuego.</td><td>Programación</td></tr>
+          <tr><td>Semana 2 · Días 1 y 2</td><td>Realizar pruebas de funcionamiento y detectar errores.</td><td>Desarrollo y pruebas</td></tr>
+          <tr><td>Semana 2 · Días 3 y 4</td><td>Corregir errores y mejorar la experiencia de juego.</td><td>Programación y diseño</td></tr>
+          <tr><td>Semana 2 · Día 5</td><td>Presentar una primera versión funcional del MVP.</td><td>Todo el equipo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:1.15rem; margin:42px 0 10px; color:var(--moon-light);">4. Técnica de planeación · Matriz de priorización</h3>
+    <p class="lead">Calificamos cada actividad del 1 al 5 según su importancia y urgencia. La suma permite identificar qué tarea debe atenderse primero.</p>
+    <div class="table-wrap">
+      <table class="planning-table">
+        <thead>
+          <tr><th>Actividad</th><th>Importancia</th><th>Urgencia</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Definir las mecánicas del videojuego</td><td>5</td><td>5</td><td><strong>10</strong></td></tr>
+          <tr><td>Programar las funciones principales</td><td>5</td><td>4</td><td><strong>9</strong></td></tr>
+          <tr><td>Diseñar la interfaz y los personajes</td><td>4</td><td>4</td><td><strong>8</strong></td></tr>
+          <tr><td>Realizar pruebas de funcionamiento</td><td>5</td><td>3</td><td><strong>8</strong></td></tr>
+          <tr><td>Crear publicaciones para redes sociales</td><td>3</td><td>2</td><td><strong>5</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="planning-note">
+      <strong>Resultado de la priorización:</strong> La primera actividad que debe atender Ludmmine es definir las mecánicas principales del videojuego, porque son la base para comenzar con la programación y el diseño. Después se desarrollarán las funciones principales, la interfaz y las pruebas de funcionamiento.
+    </div>
+
+    <div class="planning-note">
+      <strong>Conclusión:</strong> La planeación permite que Ludmmine organice sus recursos, establezca objetivos y cumpla con las fechas de entrega. Aplicamos tres principios: factibilidad, al establecer metas realistas; objetividad, al considerar las necesidades de los clientes y del mercado; y flexibilidad, al adaptar los proyectos cuando cambian los requisitos o las fechas de entrega.
+    </div>
+  </div>
+</section>
+<section id="foda" class="foda-section">
+  <div class="wrap">
+    <div class="foda-heading">
+      <p class="eyebrow">ANÁLISIS ESTRATÉGICO</p>
+      <h2>Matriz FODA de Ludmmine</h2>
+      <p>Identificamos los factores internos y externos que influyen en nuestro estudio para convertirlos en estrategias de crecimiento.</p>
+    </div>
+
+    <div class="foda-grid">
+      <article class="foda-card fo">
+        <h3>FO · Fortalezas + Oportunidades</h3>
+        <p class="foda-subtitle">Aprovechar nuestras fortalezas para crecer.</p>
+        <ul>
+          <li>Aprovechar la creatividad y capacidad de innovación de Ludmmine para desarrollar videojuegos originales y destacar en el mercado.</li>
+          <li>Utilizar los conocimientos tecnológicos del equipo para establecer alianzas con especialistas en programación y seguridad digital.</li>
+          <li>Aprovechar la adaptabilidad de la empresa para crear videojuegos personalizados y conseguir clientes mediante plataformas digitales.</li>
+        </ul>
+      </article>
+
+      <article class="foda-card fa">
+        <h3>FA · Fortalezas + Amenazas</h3>
+        <p class="foda-subtitle">Usar nuestras capacidades para enfrentar riesgos.</p>
+        <ul>
+          <li>Utilizar la creatividad para desarrollar videojuegos diferentes a los de la competencia y conseguir una identidad propia.</li>
+          <li>Aprovechar los conocimientos tecnológicos para implementar medidas de seguridad que protejan los videojuegos y la información de los clientes.</li>
+          <li>Utilizar la capacidad de adaptación para actualizar los proyectos ante los cambios tecnológicos y las nuevas tendencias del mercado.</li>
+        </ul>
+      </article>
+
+      <article class="foda-card do">
+        <h3>DO · Debilidades + Oportunidades</h3>
+        <p class="foda-subtitle">Aprovechar oportunidades para mejorar.</p>
+        <ul>
+          <li>Buscar inversionistas y colaboradores para solucionar las limitaciones económicas y financiar nuevos videojuegos.</li>
+          <li>Aprovechar los cursos y capacitaciones digitales para mejorar la experiencia y habilidades del equipo de trabajo.</li>
+          <li>Utilizar las redes sociales y plataformas digitales para dar a conocer Ludmmine y compensar su falta de reconocimiento en el mercado.</li>
+        </ul>
+      </article>
+
+      <article class="foda-card da">
+        <h3>DA · Debilidades + Amenazas</h3>
+        <p class="foda-subtitle">Reducir debilidades y prevenir amenazas.</p>
+        <ul>
+          <li>Organizar mejor el presupuesto para evitar pérdidas económicas frente a la competencia.</li>
+          <li>Capacitar constantemente al personal para evitar que la falta de experiencia tecnológica afecte los proyectos.</li>
+          <li>Establecer una buena distribución de actividades y tiempos de entrega para evitar retrasos y problemas con los clientes.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="foda-matrix-note">
+      <strong>Conclusión estratégica:</strong> Ludmmine puede fortalecer su posición en la industria de los videojuegos mediante la innovación, las alianzas tecnológicas, la capacitación y una mejor organización de sus recursos y proyectos.
+    </div>
+  </div>
+</section>
+
+
+
+<!-- UNIDAD V: MI ESTILO DE LIDERAZGO -->
+<section id="toma-decisiones">
+  <div class="wrap">
+    <p class="eyebrow">UNIDAD V · DIRECCIÓN Y TOMA DE DECISIONES</p>
+    <h2>Mi estilo de liderazgo</h2>
+    <p class="lead">
+      En Ludmmine aplicaré un liderazgo principalmente directivo, con elementos
+      participativos y transformacionales. Mantendré la organización y las responsabilidades
+      claras, pero escucharé a los especialistas y promoveré el crecimiento del equipo.
+    </p>
+
+    <div class="leadership-highlight" style="margin:18px 0 24px;">
+      <p><strong>Justificación para toda la empresa:</strong> Ludmmine necesita creatividad, coordinación y cumplimiento de compromisos. Por eso no usaré un liderazgo rígido igual para todos: estableceré objetivos, reglas, prioridades y fechas comunes, pero escucharé a cada área porque sus funciones y conocimientos son distintos. En desarrollo y diseño daré autonomía para proponer soluciones; en ventas y marketing acordaremos metas y estrategias con base en clientes; en soporte priorizaremos la atención y la resolución de solicitudes; y en administración y finanzas mantendremos controles, presupuestos y procedimientos claros. Recursos humanos (cuando se integre al equipo) atenderá capacitación, clima laboral y necesidades del personal. La decisión final será responsabilidad de la dirección.</p>
+    </div>
+    <div class="leadership-grid">
+      <article class="leadership-card">
+        <h3>✦ Área estratégica</h3>
+        <p><strong>Liderazgo directivo.</strong> Como directora definiré la visión, los objetivos,
+        las prioridades y las decisiones generales de Ludmmine.</p>
+        <ul>
+          <li>Planear el rumbo de la empresa.</li>
+          <li>Asignar recursos y establecer metas.</li>
+          <li>Evaluar riesgos y tomar decisiones finales.</li>
+        </ul>
+      </article>
+      <article class="leadership-card">
+        <h3>✦ Área táctica</h3>
+        <p><strong>Liderazgo participativo.</strong> Trabajaré con los responsables de cada
+        departamento para organizar proyectos y convertir los objetivos en planes.</p>
+        <ul>
+          <li>Coordinar programación, diseño y marketing.</li>
+          <li>Escuchar propuestas de los responsables.</li>
+          <li>Revisar avances y resolver obstáculos.</li>
+        </ul>
+      </article>
+      <article class="leadership-card">
+        <h3>✦ Área operativa</h3>
+        <p><strong>Liderazgo directivo con confianza técnica.</strong> Estableceré tareas,
+        fechas y criterios de calidad, respetando la experiencia de quienes desarrollan el juego.</p>
+        <ul>
+          <li>Definir responsabilidades concretas.</li>
+          <li>Dar seguimiento a entregas y pruebas.</li>
+          <li>Permitir propuestas para mejorar el trabajo.</li>
+        </ul>
+      </article>
+    </div>
+
+    <h3 style="font-size:1.12rem;color:var(--moon-light);margin:34px 0 12px;">Decisión directiva crítica: retraso del MVP</h3>
+    <div class="leadership-highlight">
+      <p><strong>Escenario:</strong> el equipo detecta que el MVP no estará listo en la fecha prometida. El retraso afecta programación y diseño, pero también las pruebas, la campaña de marketing, las demostraciones de ventas, el soporte de lanzamiento y el presupuesto administrativo.</p>
+      <p style="margin-top:12px;"><strong>Mi decisión:</strong> convocaré una reunión extraordinaria con los responsables de todas las áreas. Desarrollo y diseño identificarán qué funciones son indispensables; pruebas evaluará los riesgos y errores; marketing pausará anuncios que prometan funciones todavía no disponibles; ventas informará a los clientes y ajustará las demostraciones; soporte preparará respuestas para dudas; administración y finanzas revisarán el impacto en costos y calendario; y recursos humanos ayudará a detectar sobrecarga y necesidades de apoyo. Con esa información, la dirección aprobará un plan con prioridades, responsables y nuevas fechas.</p>
+      <p style="margin-top:12px;"><strong>Aplicación de mi liderazgo:</strong> seré directiva al establecer el objetivo y tomar la decisión final, participativa al escuchar a cada departamento y motivadora al reconocer el esfuerzo y distribuir el trabajo de forma realista. Reduciremos o pospondremos funciones secundarias, sin sacrificar la seguridad ni la calidad. Comunicaré al cliente el cambio con transparencia y revisaré el plan semanalmente.</p>
+    </div>
+    <p class="lead" style="margin-bottom:0;">
+      La siguiente herramienta permite convertir las decisiones en acciones concretas y darles
+      seguimiento por área, responsable, fecha y estado.
+    </p>
+  </div>
+</section>
+
+
+
+<!-- UNIDAD V: MOTIVACIÓN, COMUNICACIÓN Y SUPERVISIÓN -->
+<section id="sistema-humano" class="section">
+  <div class="wrap">
+    <p class="eyebrow">UNIDAD V · DIRECCIÓN DE EQUIPOS TECNOLÓGICOS</p>
+    <h2>El sistema operativo humano de Ludmmine</h2>
+    <p class="lead">Nuestro equipo es el motor de cada videojuego. Por eso organizamos la motivación, la comunicación, la supervisión y la evaluación con base en las necesidades de las personas y los objetivos de cada proyecto.</p>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:30px 0 14px;">1. El motor motivacional</h3>
+    <p class="lead">Tomamos como referencia las teorías de Maslow y Herzberg para crear un ambiente donde las personas puedan desarrollarse y encontrar razones para crecer dentro de Ludmmine.</p>
+    <div class="leadership-grid">
+      <article class="leadership-card"><h3>✦ Autonomía</h3><p>Permitir que los programadores propongan soluciones y organicen parte de su trabajo, respetando los objetivos y fechas acordadas.</p></article>
+      <article class="leadership-card"><h3>✦ Retos técnicos</h3><p>Asignar proyectos que permitan aprender nuevas herramientas, lenguajes y tecnologías.</p></article>
+      <article class="leadership-card"><h3>✦ Flexibilidad</h3><p>Ofrecer horarios flexibles siempre que se cumplan los objetivos y las fechas de entrega.</p></article>
+      <article class="leadership-card"><h3>✦ Reconocimiento</h3><p>Destacar el esfuerzo, las ideas y los logros de cada integrante.</p></article>
+      <article class="leadership-card"><h3>✦ Crecimiento profesional</h3><p>Brindar oportunidades para aprender, capacitarse y asumir nuevas responsabilidades.</p></article>
+      <article class="leadership-card"><h3>✦ Ambiente positivo</h3><p>Fomentar el respeto, la colaboración y la confianza entre todas las áreas.</p></article>
+    </div>
+    <div class="planning-note" style="margin-top:18px;"><strong>Aplicación a todos los puestos:</strong> desarrollo y diseño podrán elegir métodos de trabajo dentro de los objetivos; ventas y marketing recibirán retos de captación y campañas creativas; soporte tendrá capacitación, guías y reconocimiento por resolver casos con calidad; administración y finanzas participarán en mejoras de procesos y formación; y recursos humanos impulsará mentorías, integración y planes de crecimiento. La flexibilidad se organizará según las necesidades de cada puesto y la atención al cliente.</div>
+    <div class="planning-note" style="margin-top:14px;"><strong>Relación con las teorías:</strong> Maslow nos ayuda a atender las necesidades sociales, de reconocimiento y autorrealización. Herzberg aporta factores motivadores como el logro, el reconocimiento, la responsabilidad y el crecimiento profesional. Así buscamos que los colaboradores encuentren oportunidades para desarrollarse, además de recibir una remuneración.</div>
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:32px 0 14px;">Benchmarking: empresas investigadas</h3>
+    <p class="lead">Consulté las páginas oficiales de <strong>Activision Blizzard, Riot Games y Microsoft</strong>. No copiaré sus beneficios de forma automática, porque pueden variar según país, puesto y tipo de contrato; tomaré ideas que Ludmmine pueda adaptar a su tamaño y recursos.</p>
+    <div class="table-wrap"><table class="planning-table">
+      <thead><tr><th>Empresa investigada</th><th>Práctica publicada</th><th>Adaptación para Ludmmine</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://careers.activisionblizzard.com/benefits" target="_blank" rel="noopener">Activision Blizzard · Beneficios</a></td><td>Publica apoyo al bienestar, recursos de salud mental, reembolso educativo para estudios relacionados con el puesto y acceso a pruebas alfa/beta de juegos.</td><td>Capacitación relacionada con el trabajo, espacios de bienestar, reconocimiento y participación voluntaria en pruebas de videojuegos.</td></tr>
+        <tr><td><a href="https://www.riotgames.com/en/work-with-us/salary-benefits" target="_blank" rel="noopener">Riot Games · Compensación y beneficios</a></td><td>Describe tiempo libre flexible, descansos colectivos, fondos para bienestar y aprendizaje de juegos.</td><td>Flexibilidad por objetivos, pausas planeadas, días de desconexión y presupuesto gradual para aprendizaje y bienestar.</td></tr>
+        <tr><td><a href="https://careers.microsoft.com/v2/global/en/benefits" target="_blank" rel="noopener">Microsoft Careers · Beneficios</a></td><td>Destaca flexibilidad según el puesto, mentoría, aprendizaje continuo, crecimiento y bienestar.</td><td>Mentorías internas, cursos por área, reuniones de acompañamiento y acuerdos de trabajo flexibles cuando la operación lo permita.</td></tr>
+      </tbody></table></div>
+    <p class="kpi-meta" style="margin-top:10px;">Nota: las páginas consultadas describen beneficios de sus propias organizaciones; no demuestran que todas las prestaciones estén disponibles en México ni en todos los puestos. Las propuestas de Ludmmine son un plan propio y dependerán de su presupuesto y de la legislación aplicable.</p>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:42px 0 14px;">2. Protocolo de comunicación y sprints</h3>
+    <p class="lead">Utilizaremos canales definidos para mantener la información organizada y revisar los avances sin saturar al equipo de reuniones.</p>
+    <div class="table-wrap"><table class="planning-table">
+      <thead><tr><th>Canal</th><th>Uso</th><th>Frecuencia</th></tr></thead>
+      <tbody>
+        <tr><td>Discord</td><td>Comunicación diaria y resolución de dudas.</td><td>Diario</td></tr>
+        <tr><td>Trello</td><td>Asignación y seguimiento de tareas.</td><td>Actualización diaria</td></tr>
+        <tr><td>Google Meet</td><td>Reuniones para revisar avances y problemas.</td><td>Una vez por semana</td></tr>
+        <tr><td>GitHub</td><td>Compartir código y revisar modificaciones.</td><td>Al realizar cambios</td></tr>
+        <tr><td>Correo electrónico</td><td>Comunicaciones formales con clientes y colaboradores.</td><td>Cuando sea necesario</td></tr>
+      </tbody></table></div>
+    <div class="table-wrap" style="margin-top:16px;"><table class="planning-table">
+      <thead><tr><th>Área</th><th>Revisión de avances</th><th>Qué se revisa</th></tr></thead>
+      <tbody>
+        <tr><td>Desarrollo, diseño y pruebas</td><td>Breve actualización diaria; revisión semanal; cierre de sprint quincenal.</td><td>Funciones, entregables, errores, bloqueos y calidad del MVP.</td></tr>
+        <tr><td>Ventas y marketing</td><td>Revisión semanal y reunión general quincenal.</td><td>Contactos, propuestas, conversiones, campañas, comentarios y compromisos con clientes.</td></tr>
+        <tr><td>Soporte y atención al cliente</td><td>Revisión diaria de casos; resumen semanal.</td><td>Solicitudes recibidas, tiempo de respuesta, casos resueltos y satisfacción.</td></tr>
+        <tr><td>Administración y finanzas</td><td>Revisión semanal; corte mensual.</td><td>Presupuesto, gastos, pagos, compras y desviaciones de costos.</td></tr>
+        <tr><td>Recursos humanos y dirección</td><td>Reunión quincenal general; revisión mensual.</td><td>Carga de trabajo, capacitación, clima laboral, metas y riesgos.</td></tr>
+      </tbody></table></div>
+    <div class="strategy-grid" style="margin-top:18px;">
+      <article class="strategy-card"><span class="strategy-number">INICIO</span><h3>Planificación</h3><p>Al comenzar el sprint se definirán los objetivos, las tareas y las personas responsables.</p></article>
+      <article class="strategy-card"><span class="strategy-number">DESARROLLO</span><h3>Trabajo del equipo</h3><p>Cada integrante realizará sus actividades y actualizará el estado de sus tareas.</p></article>
+      <article class="strategy-card"><span class="strategy-number">REVISIÓN</span><h3>Seguimiento semanal</h3><p>Se revisará el progreso, se identificarán dificultades y se acordará el apoyo necesario.</p></article>
+      <article class="strategy-card"><span class="strategy-number">CIERRE</span><h3>Evaluación del sprint</h3><p>Al finalizar las dos semanas se presentarán resultados, se probarán las funciones y se definirán mejoras para el siguiente sprint.</p></article>
+    </div>
+    <div class="planning-note"><strong>Duración de cada sprint:</strong> dos semanas.</div>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:42px 0 14px;">3. Política de supervisión constructiva</h3>
+    <p class="lead">La supervisión se basará en resultados, comunicación y confianza. No se vigilará constantemente a los colaboradores; se dará seguimiento para detectar obstáculos y ofrecer apoyo a tiempo.</p>
+    <div class="leadership-grid">
+      <article class="leadership-card"><h3>Seguimiento de tareas</h3><p>Revisar Trello para identificar actividades pendientes, detenidas o próximas a vencer.</p></article>
+      <article class="leadership-card"><h3>Reuniones de seguimiento</h3><p>Consultar los avances y preguntar qué dificultades necesitan resolverse.</p></article>
+      <article class="leadership-card"><h3>Detección de cuellos de botella</h3><p>Identificar si una tarea depende de otra persona, herramienta o solución técnica.</p></article>
+      <article class="leadership-card"><h3>Apoyo técnico</h3><p>Facilitar que los integrantes soliciten ayuda y colaboren para resolver problemas.</p></article>
+      <article class="leadership-card"><h3>Reorganización</h3><p>Cambiar prioridades o distribuir tareas cuando sea necesario.</p></article>
+      <article class="leadership-card"><h3>Retroalimentación</h3><p>Señalar oportunidades de mejora sin culpar ni desmotivar al colaborador.</p></article>
+    </div>
+    <div class="leadership-highlight" style="margin-top:20px;">
+      <p><strong>Ejemplo práctico:</strong> si el equipo de programación se retrasa en una función importante, la dirección revisará las causas junto con los responsables. Después se reorganizarán las tareas, se ofrecerá apoyo técnico y se establecerá una nueva fecha de revisión. La meta será solucionar el problema sin generar presión innecesaria.</p>
+    </div>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:42px 0 14px;">4. Control y evaluación directiva</h3>
+    <p class="lead">Evaluaremos los resultados del proyecto y el funcionamiento del equipo mediante indicadores claros.</p>
+    <div class="table-wrap"><table class="planning-table">
+      <thead><tr><th>Indicador</th><th>¿Qué se evaluará?</th><th>Frecuencia</th></tr></thead>
+      <tbody>
+        <tr><td>Avance del MVP</td><td>Porcentaje de funciones del producto mínimo viable completadas frente al plan.</td><td>Semanal · foco rojo menor a 90%</td></tr>
+        <tr><td>Pruebas con usuarios reales</td><td>Número de pruebas realizadas para validar el videojuego.</td><td>Por sprint · foco rojo menor a 5</td></tr>
+        <tr><td>Retraso de entregas clave</td><td>Días transcurridos después de la fecha programada.</td><td>Semanal · foco rojo mayor a 14 días</td></tr>
+        <tr><td>Cumplimiento de tareas</td><td>Porcentaje de actividades terminadas a tiempo.</td><td>Semanal</td></tr>
+        <tr><td>Calidad del software</td><td>Errores detectados durante las pruebas y su nivel de impacto.</td><td>Cada sprint</td></tr>
+        <tr><td>Motivación del equipo</td><td>Satisfacción y ambiente laboral mediante retroalimentación.</td><td>Mensual</td></tr>
+        <tr><td>Conversión comercial</td><td>Porcentaje de propuestas aceptadas respecto de las propuestas enviadas.</td><td>Semanal · alerta si baja de 15% durante dos revisiones consecutivas (meta inicial a validar).</td></tr>
+        <tr><td>Atención de soporte</td><td>Porcentaje de solicitudes respondidas dentro del plazo interno acordado.</td><td>Semanal · alerta si baja de 90%.</td></tr>
+        <tr><td>Control presupuestal</td><td>Diferencia entre gasto real y presupuesto autorizado del proyecto.</td><td>Semanal · alerta si supera 10% sin autorización.</td></tr>
+      </tbody></table></div>
+    <div class="planning-note" style="margin-top:18px;"><strong>Acciones correctivas:</strong> cuando los resultados no sean los esperados, analizaremos las causas y estableceremos soluciones como capacitación, redistribución de tareas, cambios de prioridades o mejoras en la comunicación. La evaluación no busca castigar, sino identificar oportunidades de mejora y asegurar que los proyectos se desarrollen correctamente.</div>
+    <div class="strategy-speech" style="margin-top:20px;"><p class="eyebrow">CONCLUSIÓN</p><h3>Las personas hacen posible cada proyecto</h3><p>Ludmmine considera que el éxito de una empresa tecnológica no depende únicamente de sus herramientas o de la calidad de sus videojuegos, sino también de las personas que trabajan en ellos. Mediante la motivación, la comunicación organizada y la supervisión constructiva, buscaremos crear un equipo comprometido, creativo y capaz de resolver problemas. Aplicar las teorías de Maslow y Herzberg permitirá comprender mejor las necesidades de los colaboradores y construir un ambiente donde puedan crecer profesionalmente mientras contribuyen al desarrollo de la empresa.</p></div>
+  </div>
+</section>
+<section id="estandares-control">
+  <div class="wrap">
+    <p class="eyebrow">UNIDAD V · ESTÁNDARES DE CONTROL</p>
+    <h2>Estándares de control en mi empresa</h2>
+    <p class="lead">El estándar principal de Ludmmine será cumplir al menos el 90% de los compromisos semanales o quincenales de cada área, respetando los criterios de calidad, atención y presupuesto correspondientes al puesto. No se medirá a todas las personas con la misma cantidad de tareas: cada departamento tendrá indicadores relacionados con sus responsabilidades.</p>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:30px 0 14px;">1. Estándar clave por área</h3>
+    <div class="table-wrap"><table class="planning-table">
+      <thead><tr><th>Área / puestos</th><th>Estándar esperado</th><th>Cómo se comprobará</th></tr></thead>
+      <tbody>
+        <tr><td>Dirección y coordinación</td><td>100% de decisiones críticas registradas con responsable, fecha y seguimiento.</td><td>Actas breves y tablero de proyectos.</td></tr>
+        <tr><td>Programación y desarrollo</td><td>Al menos 90% de tareas comprometidas terminadas en el sprint; código revisado y probado.</td><td>Trello y GitHub: tareas completadas, revisiones y pruebas.</td></tr>
+        <tr><td>Diseño y arte</td><td>Al menos 90% de entregables aprobados según el brief y la fecha acordada.</td><td>Tablero de tareas y lista de criterios visuales.</td></tr>
+        <tr><td>Pruebas y calidad</td><td>100% de funciones esenciales del MVP probadas antes de una entrega; errores críticos atendidos antes de publicar.</td><td>Registro de pruebas, errores y correcciones.</td></tr>
+        <tr><td>Ventas y marketing</td><td>Al menos 90% de seguimientos comerciales realizados en la fecha prevista; propuestas y campañas con resultados medidos.</td><td>Registro de clientes, propuestas, seguimiento y conversiones.</td></tr>
+        <tr><td>Soporte y servicio al cliente</td><td>Al menos 90% de solicitudes respondidas dentro del plazo interno; casos documentados hasta su solución.</td><td>Registro de tickets, tiempos de respuesta y satisfacción.</td></tr>
+        <tr><td>Administración y finanzas</td><td>Registros actualizados semanalmente y desviaciones presupuestales justificadas.</td><td>Control de gastos, pagos, facturas y presupuesto.</td></tr>
+        <tr><td>Recursos humanos</td><td>Procesos de integración, capacitación y seguimiento del personal realizados según calendario.</td><td>Lista de inducción, capacitaciones y encuestas de clima.</td></tr>
+      </tbody></table></div>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:34px 0 14px;">2. Instrumento de medición semanal</h3>
+    <p class="lead">Utilizaré un tablero compartido en Trello y un resumen de indicadores. Cada responsable actualizará únicamente el estado de sus tareas, la fecha, el resultado y, si existe un problema, el motivo y el apoyo que necesita. Una reunión semanal de máximo 30 minutos revisará las excepciones; al terminar cada sprint de dos semanas se evaluará el resultado completo.</p>
+    <div class="planning-note"><strong>Fórmula general:</strong> Cumplimiento (%) = (compromisos terminados y aceptados dentro del periodo ÷ compromisos acordados para ese periodo) × 100. Ejemplo: si un área acordó 10 entregables y completó correctamente 9 a tiempo, su cumplimiento es 90%. Se excluyen cambios de alcance autorizados y tareas bloqueadas por dependencias externas, siempre que se documenten y se acuerde un nuevo plan.</div>
+    <p class="lead" style="margin-top:16px;">Para evitar burocracia, no se pedirán reportes largos ni se medirá el valor de una persona por horas conectada, mensajes enviados o cantidad de líneas de código. Se revisarán resultados, calidad, colaboración y cumplimiento de acuerdos. Las metas se ajustarán según el tamaño y la dificultad de cada proyecto.</p>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:34px 0 14px;">3. Política de corrección y alertas automáticas</h3>
+    <div class="table-wrap"><table class="planning-table">
+      <thead><tr><th>Situación detectada</th><th>Acción automática del sistema</th><th>Acción del responsable y dirección</th></tr></thead>
+      <tbody>
+        <tr><td>Una tarea no se actualiza durante un día hábil.</td><td>Enviar recordatorio privado al responsable.</td><td>El colaborador actualiza el estado o explica el bloqueo.</td></tr>
+        <tr><td>Una tarea vence sin entregarse.</td><td>Marcarla como vencida y avisar al responsable y líder del área.</td><td>Revisar causa, prioridad, carga de trabajo y nueva fecha realista.</td></tr>
+        <tr><td>Un área queda debajo del 90% de cumplimiento.</td><td>Activar alerta amarilla y solicitar explicación breve.</td><td>Definir apoyo, capacitación, redistribución o ajuste del plan.</td></tr>
+        <tr><td>Retraso mayor a 14 días, falla crítica o riesgo para el cliente.</td><td>Activar foco rojo y notificar a dirección.</td><td>Reunión extraordinaria, priorizar el objetivo principal y comunicar el plan al cliente si corresponde.</td></tr>
+        <tr><td>Se repite el incumplimiento en dos periodos.</td><td>Generar seguimiento prioritario y registrar acuerdos.</td><td>Revisar si la meta es realista, si faltan recursos o capacitación y acordar un plan de mejora.</td></tr>
+      </tbody></table></div>
+    <div class="leadership-highlight" style="margin-top:18px;"><p><strong>Regla de justicia:</strong> ninguna alerta provocará un castigo automático. Antes de tomar medidas se escuchará a la persona, se comprobará si existió una causa justificada —por ejemplo, una dependencia externa, cambio solicitado por el cliente, ausencia autorizada o falta de recursos— y se acordará una solución. El objetivo del control es corregir el proceso y apoyar al equipo, no vigilar ni sancionar sin investigar.</p></div>
+
+    <h3 style="font-size:1.15rem;color:var(--moon-light);margin:34px 0 14px;">4. Base de datos futura</h3>
+    <p class="lead">El tablero actual funciona como prototipo local del navegador. En una versión conectada a una base de datos, se crearán registros de colaboradores, departamentos, tareas, metas, mediciones, alertas y acciones correctivas. Así cada persona verá sus actividades y cada responsable podrá consultar los resultados de su área, con permisos según su puesto.</p>
+    <div class="planning-note"><strong>Conclusión:</strong> el control de Ludmmine combinará metas claras, mediciones sencillas y acompañamiento. El MVP será el objetivo común, pero el resultado dependerá del trabajo coordinado de desarrollo, diseño, calidad, ventas, marketing, soporte, administración, finanzas, recursos humanos y dirección.</div>
+  </div>
+</section>
+<!-- GESTIÓN DE PROYECTOS -->
+
+
+    <div class="pm-stats">
+      <div class="pm-stat">
+        <span>Total de tareas</span>
+        <strong id="pmTotal">0</strong>
+      </div>
+
+      <div class="pm-stat">
+        <span>Pendientes</span>
+        <strong id="pmPending">0</strong>
+      </div>
+
+      <div class="pm-stat">
+        <span>En progreso</span>
+        <strong id="pmProgress">0</strong>
+      </div>
+
+      <div class="pm-stat">
+        <span>Vencidas</span>
+        <strong id="pmOverdue">0</strong>
+      </div>
+    </div>
+
+    <div class="pm-layout">
+
+      <div class="pm-panel">
+        <h3>✦ Nueva tarea</h3>
+
+        <form id="pmForm" class="pm-form">
+
+          <label>
+            Nombre de la tarea
+            <input id="pmTitle" maxlength="100"
+              placeholder="Ej. Diseñar menú principal" required>
+          </label>
+
+          <label>
+            Nivel de decisión
+            <select id="pmLevel">
+              <option>Estratégica</option>
+              <option>Táctica</option>
+              <option>Operativa</option>
+            </select>
+          </label>
+
+          <label>
+            Área responsable
+            <select id="pmArea">
+              <option>Dirección / estrategia</option>
+              <option>Programación</option>
+              <option>Diseño gráfico</option>
+              <option>Arte y animación</option>
+              <option>Pruebas / calidad</option>
+              <option>Ciberseguridad</option>
+              <option>Marketing y ventas</option>
+              <option>Atención al cliente</option>
+              <option>Administración / finanzas</option>
+            </select>
+          </label>
+
+          <label>
+            Problema o situación detectada
+            <textarea id="pmProblem" maxlength="350"
+              placeholder="Ej. Las funciones principales del MVP presentan retrasos"></textarea>
+          </label>
+
+          <label>
+            Decisión y acción que se realizará
+            <textarea id="pmAction" maxlength="500"
+              placeholder="Ej. Priorizar funciones esenciales y posponer características secundarias"></textarea>
+          </label>
+
+          <label>
+            Responsable
+            <input id="pmOwner" maxlength="70"
+              placeholder="Nombre del responsable" required>
+          </label>
+
+          <label>
+            Fecha límite
+            <input id="pmDue" type="date" required>
+          </label>
+
+          <label>
+            KPI relacionado
+            <select id="pmKpi">
+              <option value="mvp">Avance del MVP</option>
+              <option value="tests">Pruebas con usuarios reales</option>
+              <option value="calendar">Cumplimiento del calendario</option>
+              <option value="none">Sin KPI específico</option>
+            </select>
+          </label>
+
+          <label>
+            Umbral de alerta de esta tarea
+            <input id="pmThreshold" maxlength="180" placeholder="Ej. Foco rojo si se retrasa más de 14 días">
+          </label>
+
+          <label>
+            Plan de acción correctiva si se activa la alerta
+            <textarea id="pmCorrective" maxlength="500" placeholder="Ej. Reducir alcance secundario, reasignar apoyo y revisar el Core"></textarea>
+          </label>
+
+          <label>
+            Prioridad
+            <select id="pmPriority">
+              <option>Media</option>
+              <option>Alta</option>
+              <option>Baja</option>
+            </select>
+          </label>
+
+          <button type="submit" class="btn">
+            + Agregar tarea
+          </button>
+        </form>
+
+        <p class="pm-note">
+          Registra decisiones, vincúlalas con un KPI, define el umbral que activará una alerta y deja escrita la acción correctiva. La tarea permitirá dar seguimiento a la decisión directiva.
+        </p>
+      </div>
+
+      <div class="pm-panel">
+        <h3>Seguimiento del equipo</h3>
+
+        <div class="pm-filters">
+          <input id="pmSearch" type="search"
+            placeholder="Buscar tarea o responsable">
+
+          <select id="pmFilter">
+            <option value="Todas">Todos los estados</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="En progreso">En progreso</option>
+            <option value="Completada">Completada</option>
+          </select>
+        </div>
+
+        <div id="pmTasks" class="pm-list" aria-live="polite">
+          <p class="pm-empty">No hay tareas registradas.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- UNIDAD VI: CONTROL FINANCIERO, AUDITORÍA Y PRESUPUESTO -->
+<section id="unidad-vi" class="unit6-section">
+ <div class="wrap">
+  <div class="unit6-intro">
+   <p class="eyebrow">UNIDAD VI · ADMINISTRACIÓN DE PROYECTOS</p>
+   <h2>Control financiero y auditoría de Ludmmine</h2>
+   <p class="lead">Además de desarrollar videojuegos, Ludmmine debe cuidar sus recursos, comprobar la satisfacción de sus clientes y revisar si sus decisiones administrativas están dando resultados.</p>
+  </div>
+
+  <div class="unit6-block">
+   <h3>1. El control como escudo financiero y operativo</h3>
+   <p class="lead">El control es un proceso de retroalimentación que permite comprobar si los recursos financieros, técnicos y humanos se utilizan correctamente para cumplir los objetivos de la empresa. No consiste únicamente en vigilar, sino en detectar desviaciones y corregirlas a tiempo.</p>
+   <div class="unit6-grid">
+    <article class="unit6-card"><h3>Control cuantitativo</h3><p>Se apoya en datos y cantidades para conocer el desempeño.</p><ul><li>Presupuesto y flujo de caja.</li><li>Costos fijos y variables.</li><li>Ingresos por contratos y ventas.</li><li>Auditorías técnicas y errores del videojuego.</li></ul></article>
+    <article class="unit6-card"><h3>Control cualitativo</h3><p>Evalúa aspectos que no se explican únicamente con números.</p><ul><li>Clima laboral y carga de trabajo.</li><li>Satisfacción de clientes y usuarios.</li><li>Usabilidad y calidad percibida del MVP.</li><li>Comunicación y desempeño directivo.</li></ul></article>
+    <article class="unit6-card"><h3>¿Por qué es importante?</h3><p>Permite validar ideas con usuarios reales, evitar gastos en funciones innecesarias y aprender del mercado para mejorar el producto con evidencia, no solo con suposiciones.</p></article>
+   </div>
+  </div>
+
+  <div class="unit6-block">
+   <h3>2. Presupuesto y estructura de costos</h3>
+   <p class="lead">Para iniciar y mantener sus proyectos, Ludmmine separará los costos que se mantienen cada mes de aquellos que aumentan según el número de videojuegos o contratos atendidos.</p>
+   <div class="table-wrap"><table class="planning-table">
+    <thead><tr><th>Tipo</th><th>Concepto</th><th>Estimación mensual</th><th>Justificación</th></tr></thead>
+    <tbody>
+     <tr><td>Fijo</td><td>Hosting, dominio y almacenamiento</td><td>$1,500 MXN</td><td>Servicios digitales necesarios para la operación y la página web.</td></tr>
+     <tr><td>Fijo</td><td>Licencias y herramientas de trabajo</td><td>$2,500 MXN</td><td>Software de diseño, programación y organización.</td></tr>
+     <tr><td>Fijo</td><td>Sueldos base y administración</td><td>$18,000 MXN</td><td>Estimación inicial para mantener la operación del equipo.</td></tr>
+     <tr><td>Fijo</td><td>Servicios y gastos administrativos</td><td>$2,000 MXN</td><td>Internet, electricidad y otros gastos básicos.</td></tr>
+     <tr><td>Variable</td><td>Recursos adicionales por proyecto</td><td>$4,000 MXN por contrato</td><td>Recursos externos, pruebas, contenido o servicios que dependen del proyecto.</td></tr>
+     <tr><td>Variable</td><td>Comisiones y soporte adicional</td><td>$2,000 MXN por contrato</td><td>Pagos de plataformas y apoyo extra cuando se requiere.</td></tr>
+    </tbody>
+   </table></div>
+   <div class="unit6-note"><strong>Inversión inicial estimada:</strong> $12,000 MXN para equipo complementario, configuración de herramientas, identidad digital y puesta en marcha. Son cantidades de planeación escolar, no cotizaciones comerciales; deberán actualizarse con precios y necesidades reales antes de operar.</div>
+  </div>
+
+  <div class="unit6-block" id="punto-equilibrio">
+   <h3>3. Calculadora del punto de equilibrio</h3>
+   <p class="lead">El punto de equilibrio indica cuántos contratos necesita vender Ludmmine para que sus ingresos cubran sus costos, sin generar pérdida ni ganancia. La fórmula es: costos fijos ÷ (precio de venta − costo variable unitario).</p>
+   <div class="pm-panel">
+    <div class="u6-calc">
+     <label>Costos fijos mensuales (MXN)<input id="u6Fixed" type="number" min="0" step="100" value="24000"></label>
+     <label>Precio promedio por contrato (MXN)<input id="u6Price" type="number" min="1" step="100" value="18000"></label>
+     <label>Costo variable por contrato (MXN)<input id="u6Variable" type="number" min="0" step="100" value="6000"></label>
+     <label>Contratos estimados al mes<input id="u6Sales" type="number" min="0" step="1" value="2"></label>
+    </div>
+    <div class="u6-results" aria-live="polite">
+     <div class="u6-result"><span>Margen por contrato</span><strong id="u6Margin">$12,000</strong></div>
+     <div class="u6-result"><span>Punto de equilibrio</span><strong id="u6BreakEven">2 contratos</strong></div>
+     <div class="u6-result"><span>Resultado estimado del mes</span><strong id="u6Profit">$0</strong></div>
+    </div>
+    <p id="u6BreakStatus" class="unit6-note" role="status">Con 2 contratos, Ludmmine alcanza el punto de equilibrio.</p>
+   </div>
+   <div class="unit6-note"><strong>Interpretación:</strong> con los valores iniciales, cada contrato aporta $12,000 MXN para cubrir los costos fijos. Se necesitan 2 contratos al mes para cubrir $24,000 MXN de costos fijos. Si durante dos meses consecutivos no se alcanza el punto de equilibrio, Dirección revisará gastos, precios, alcance de los proyectos y oportunidades comerciales antes de autorizar nuevos compromisos.</div>
+  </div>
+
+  <div class="unit6-block">
+   <h3>4. Control presupuestal: presupuesto contra gasto real</h3>
+   <p class="lead">Cada mes, Administración y Finanzas compararán lo planeado con lo que realmente se gastó. El tablero muestra una señal para detectar desviaciones.</p>
+   <div class="pm-panel">
+    <div class="u6-calc">
+     <label>Presupuesto del periodo (MXN)<input id="u6Budget" type="number" min="0" step="100" value="24000"></label>
+     <label>Gasto real del periodo (MXN)<input id="u6Actual" type="number" min="0" step="100" value="24000"></label>
+     <label>Motivo o cambio imprevisto<textarea id="u6Reason" maxlength="300" placeholder="Ej. Aumentó el costo del servicio de alojamiento."></textarea></label>
+    </div>
+    <div class="u6-results">
+     <div class="u6-result"><span>Diferencia</span><strong id="u6Difference">$0</strong></div>
+     <div class="u6-result"><span>Variación</span><strong id="u6Variation">0%</strong></div>
+     <div class="u6-result"><span>Semáforo</span><strong id="u6Traffic">Verde</strong><span id="u6TrafficLabel" class="u6-status ok">Dentro del presupuesto</span></div>
+    </div>
+    <button class="btn" id="u6LogButton" type="button">Registrar en bitácora</button>
+    <div id="u6Log" class="kpi-history" aria-live="polite"><p class="pm-empty">Aún no hay movimientos registrados.</p></div>
+   </div>
+   <div class="table-wrap" style="margin-top:18px"><table class="planning-table"><thead><tr><th>Semáforo</th><th>Criterio</th><th>Acción</th></tr></thead><tbody>
+    <tr><td>Verde</td><td>Gasto igual o menor al presupuesto.</td><td>Mantener el seguimiento habitual.</td></tr>
+    <tr><td>Amarillo</td><td>El gasto supera el presupuesto hasta en 10%.</td><td>Identificar la causa y proponer ajustes para el siguiente periodo.</td></tr>
+    <tr><td>Rojo</td><td>El gasto supera el presupuesto en más de 10%.</td><td>Detener gastos no esenciales, informar a Dirección y aprobar una acción correctiva.</td></tr>
+   </tbody></table></div>
+   <p class="unit6-note"><strong>Regla de control:</strong> Finanzas revisará el flujo de caja cada quince días y realizará un cierre mensual. Todo gasto imprevisto deberá quedar registrado con fecha, motivo, responsable e impacto en el presupuesto.</p>
+  </div>
+
+  <div class="unit6-block">
+   <h3>5. Auditoría administrativa y control cualitativo</h3>
+   <p class="lead">La auditoría administrativa revisa de forma ordenada cómo funcionaron la planeación, la organización, la dirección y el control. También considera el clima laboral y la experiencia de los usuarios.</p>
+   <div class="unit6-grid">
+    <article class="unit6-card"><h3>Encuesta de satisfacción del MVP</h3><p>Después de probar el videojuego, se pedirá a los usuarios calificar del 1 al 5:</p><ul><li>Facilidad para entender los controles.</li><li>Comodidad de la interfaz.</li><li>Funcionamiento y estabilidad.</li><li>Interés y diversión de la experiencia.</li><li>Probabilidad de recomendarlo.</li></ul><p>Se agregará una pregunta abierta: ¿qué mejorarías primero?</p></article>
+    <article class="unit6-card"><h3>Clima laboral</h3><p>Mensualmente, el equipo podrá compartir de manera confidencial si la carga de trabajo es adecuada, si recibe apoyo, si la comunicación es clara y qué necesita para realizar mejor sus actividades.</p></article>
+    <article class="unit6-card"><h3>Cierre del ciclo administrativo</h3><p>Los resultados del control servirán como aprendizaje para la siguiente planeación. Si una meta no se cumple, se revisarán las causas y se ajustarán recursos, tiempos o responsabilidades.</p></article>
+   </div>
+   <div class="pm-panel" style="margin-top:20px">
+    <h3>Checklist de auditoría interna</h3>
+    <p class="kpi-meta">Marca los puntos que Ludmmine ya puede comprobar. El avance se actualiza automáticamente.</p>
+    <div class="u6-checklist" id="u6AuditList">
+     <label class="u6-check"><input type="checkbox"> La misión, visión y objetivos están definidos.</label>
+     <label class="u6-check"><input type="checkbox"> Las áreas y responsabilidades están identificadas.</label>
+     <label class="u6-check"><input type="checkbox"> Cada proyecto tiene alcance, fechas y responsables.</label>
+     <label class="u6-check"><input type="checkbox"> Se realizan revisiones y seguimiento de tareas.</label>
+     <label class="u6-check"><input type="checkbox"> Se revisan los resultados y la retroalimentación de usuarios.</label>
+     <label class="u6-check"><input type="checkbox"> Los gastos se comparan con el presupuesto.</label>
+     <label class="u6-check"><input type="checkbox"> Las desviaciones tienen una causa y una acción correctiva registrada.</label>
+     <label class="u6-check"><input type="checkbox"> Se revisan la comunicación y el clima laboral.</label>
+     <label class="u6-check"><input type="checkbox"> Los cambios solicitados por clientes quedan documentados.</label>
+     <label class="u6-check"><input type="checkbox"> Los resultados se utilizan para mejorar el siguiente ciclo.</label>
+    </div>
+    <div class="u6-progress"><span id="u6AuditBar"></span></div>
+    <p id="u6AuditProgress" class="kpi-meta" aria-live="polite">0 de 10 puntos comprobados (0%).</p>
+   </div>
+  </div>
+
+  <div class="unit6-block">
+   <h3>6. Reflexión y cierre del proyecto</h3>
+   <div class="strategy-speech">
+    <p class="eyebrow">DIAGNÓSTICO FINAL · LUDMMINE</p>
+    <h3>Administrar también es aprender</h3>
+    <p>Durante el desarrollo de Ludmmine comprendí que crear una empresa de videojuegos no consiste solamente en tener buenas ideas o saber programar. También es necesario planear, organizar al equipo, tomar decisiones, administrar el dinero y comprobar los resultados. Aprendí que cada área aporta al proyecto y que una comunicación clara ayuda a evitar retrasos y confusiones. El control financiero permite reconocer si los recursos alcanzan, mientras que la opinión de los usuarios y del equipo ayuda a mejorar la calidad del trabajo. Como fundador, debo estar dispuesto a corregir mis decisiones, escuchar a los demás y utilizar cada resultado como aprendizaje para el siguiente proyecto.</p>
+   </div>
+   <div class="unit6-note"><strong>Conclusión de la Unidad VI:</strong> Ludmmine utilizará controles cuantitativos y cualitativos, revisiones quincenales de caja, comparación mensual del presupuesto, punto de equilibrio, encuestas de satisfacción y una auditoría interna. Así podrá anticipar problemas, cuidar sus recursos y mejorar continuamente.</div>
+  </div>
+ </div>
+</section>
+
+<section id="gestion">
+  <div class="wrap">
+
+    <p class="eyebrow">ORGANIZACIÓN INTERNA</p>
+    <h2>Gestión de proyectos</h2>
+
+    <p class="lead">
+      Coordinamos las áreas de Ludmmine para reducir retrasos,
+      distribuir responsabilidades y anticipar riesgos.
+    </p>
+
+    <section id="tablero-control" class="kpi-dashboard" aria-labelledby="kpiTitle">
+      <div class="kpi-heading">
+        <div><p class="eyebrow">UNIDAD V · CONTROL Y EVALUACIÓN DIRECTIVA</p>
+          <h3 id="kpiTitle">Mi tablero de control y alertas de gestión</h3>
+          <p class="kpi-meta">Los indicadores se revisan semanalmente y al cierre de cada sprint de dos semanas. El tablero señala desviaciones para tomar decisiones a tiempo.</p>
+        </div>
+        <span class="kpi-status">Prototipo local · Base de datos futura</span>
+      </div>
+      <div class="kpi-grid" id="kpiCards" aria-live="polite">
+        <article class="kpi-card"><h4>Avance del MVP</h4><span class="kpi-value">Sin registro</span><p class="kpi-meta">Meta: 90% o más por revisión.</p></article>
+        <article class="kpi-card"><h4>Pruebas con usuarios</h4><span class="kpi-value">Sin registro</span><p class="kpi-meta">Meta: mínimo 5 por sprint.</p></article>
+      </div>
+      <div id="kpiAlerts" class="kpi-alert-box" role="status">Sin mediciones registradas. Captura el primer resultado para activar las alertas.</div>
+      <div class="pm-layout">
+        <div class="pm-panel">
+          <h3>Registrar medición</h3>
+          <form id="kpiForm" class="pm-form">
+            <label>Indicador
+              <select id="kpiType"><option value="mvp">Porcentaje de avance del MVP</option><option value="tests">Pruebas con usuarios reales por sprint</option><option value="calendar">Días de retraso de una entrega</option></select>
+            </label>
+            <label>Resultado medido
+              <input id="kpiValue" type="number" min="0" step="any" required placeholder="Ej. 82">
+            </label>
+            <label>Fecha de revisión
+              <input id="kpiDate" type="date" required>
+            </label>
+            <label>Observaciones / evidencia
+              <textarea id="kpiNotes" maxlength="350" placeholder="Ej. Se completaron 4 de las 5 pruebas planeadas"></textarea>
+            </label>
+            <button class="btn" type="submit">+ Guardar medición</button>
+          </form>
+        </div>
+        <div class="pm-panel">
+          <h3>Umbrales y plan de acción correctiva</h3>
+          <div class="leadership-card"><h3>Foco rojo 1 · Avance del MVP</h3><p>Se activa cuando el avance registrado sea menor al 90% de lo planeado en la revisión semanal. Dirección revisará las tareas bloqueadas, priorizará el núcleo funcional (Core) y pospondrá funciones secundarias si amenazan la entrega.</p></div>
+          <div class="leadership-card" style="margin-top:12px"><h3>Foco rojo 2 · Pruebas con usuarios</h3><p>Se activa cuando se realicen menos de 5 pruebas con usuarios reales al cierre del sprint. Se coordinará una nueva ronda de pruebas, se contactará a participantes y se corregirán primero los problemas que afecten la experiencia principal.</p></div>
+          <div class="leadership-card" style="margin-top:12px"><h3>Foco rojo 3 · Calendario</h3><p>Se activa si una entrega clave acumula más de 14 días de retraso. Dirección revisará el alcance, reasignará recursos y negociará una fecha realista con el cliente.</p></div>
+        </div>
+      </div>
+      <div style="margin-top:18px"><h3>Historial de mediciones</h3><div id="kpiHistory" class="kpi-history"><p class="pm-empty">Todavía no hay mediciones.</p></div></div>
+      <div class="pm-db-note"><strong>Preparación para la base de datos:</strong> por ahora este prototipo guarda la información en el almacenamiento local del navegador (localStorage), no en una base de datos compartida. Más adelante se conectará a una base de datos para guardar proyectos, indicadores, mediciones, alertas, tareas y acciones correctivas. La estructura ya separa esos datos para facilitar esa integración.</div>
+    </section>
+
+
+<section
+    id="contacto"
+    class="contact"
+  >
+
+    <div class="wrap">
+
+      <h2>
+        ¿Tienes una idea para un juego?
+      </h2>
+
+      <p class="lead">
+        Cuéntanos qué tienes en mente.
+        Nuestro equipo puede convertir esa idea
+        en una experiencia jugable.
+      </p>
+
+      <form id="f">
+
+        <input
+          type="text"
+          placeholder="Nombre de la empresa"
+          aria-label="Nombre de la empresa"
+          required
+        >
+
+        <input
+          type="email"
+          placeholder="Correo de contacto"
+          aria-label="Correo de contacto"
+          required
+        >
+
+        <textarea
+          rows="5"
+          placeholder="Describe el juego que quieres"
+          aria-label="Descripción del juego"
+          required
+        ></textarea>
+
+        <button
+          class="btn"
+          type="submit"
+        >
+          ✦ Enviar pedido
+        </button>
+
+        <p
+          id="ok"
+          role="status"
+          style="
+            display:none;
+            color:white;
+            font-weight:600;
+          "
+        >
+          Se preparó tu solicitud en la aplicación de correo.
+        </p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+
+  <div class="wrap">
+
+    <span>
+      © 2026 Ludmmine.
+      Todos los derechos reservados.
+    </span>
+
+    <span>
+      hola@ludmmine.com
+    </span>
+
+  </div>
+
+</footer>
+
+<script>
+
+document
+  .getElementById("f")
+  .addEventListener(
+    "submit",
+    function(e){
+
+      e.preventDefault();
+      const fields = this.querySelectorAll("input, textarea");
+      const subject = encodeURIComponent("Solicitud de videojuego - " + fields[0].value);
+      const body = encodeURIComponent("Empresa: " + fields[0].value + "\nCorreo: " + fields[1].value + "\nDescripción: " + fields[2].value);
+      window.location.href = "mailto:hola@ludmmine.com?subject=" + subject + "&body=" + body;
+      document.getElementById("ok").textContent = "Se abrió tu aplicación de correo para enviar la solicitud. Si no se abrió, escribe a hola@ludmmine.com.";
+      document.getElementById("ok").style.display="block";
+
+    }
+  );
+
+const menuToggle =
+  document.getElementById("menuToggle");
+
+const mobileMenu =
+  document.getElementById("mobileMenu");
+
+menuToggle.addEventListener(
+  "click",
+  function(){
+
+    mobileMenu.classList.toggle("active");
+
+  }
+);
+
+const mobileLinks =
+  mobileMenu.querySelectorAll("a");
+
+mobileLinks.forEach(
+  function(link){
+
+    link.addEventListener(
+      "click",
+      function(){
+
+        mobileMenu.classList.remove("active");
+
+      }
+    );
+
+  }
+);
+
+document.addEventListener(
+  "click",
+  function(e){
+
+    if(
+      !mobileMenu.contains(e.target)
+      &&
+      !menuToggle.contains(e.target)
+    ){
+
+      mobileMenu.classList.remove("active");
+
+    }
+
+  }
+);
+
+
+/* ===== TABLERO DE CONTROL Y KPIs ===== */
+const kpiCards = document.getElementById("kpiCards");
+const kpiAlerts = document.getElementById("kpiAlerts");
+const kpiHistory = document.getElementById("kpiHistory");
+const kpiForm = document.getElementById("kpiForm");
+let kpiData = [];
+try {
+  const savedKpis = JSON.parse(localStorage.getItem("ludmmineKpiMeasurements") || "[]");
+  if (Array.isArray(savedKpis)) kpiData = savedKpis;
+} catch { kpiData = []; }
+const kpiDefinitions = {
+  mvp: { name:"Avance del MVP", unit:"%", target:90, direction:"min", threshold:"Foco rojo si el avance es menor al 90% de lo planeado en la revisión semanal." },
+  tests: { name:"Pruebas con usuarios reales", unit:" pruebas", target:5, direction:"min", threshold:"Foco rojo si se realizan menos de 5 pruebas al cierre de cada sprint." },
+  calendar: { name:"Días de retraso de una entrega", unit:" días", target:14, direction:"max", threshold:"Foco rojo si una entrega clave acumula más de 14 días de retraso." }
+};
+function kpiSave(){
+  try { localStorage.setItem("ludmmineKpiMeasurements", JSON.stringify(kpiData)); }
+  catch { alert("No se pudieron guardar las mediciones en este navegador."); }
+}
+function kpiLatest(type){ return kpiData.filter(x=>x.type===type).sort((a,b)=>b.date.localeCompare(a.date))[0]; }
+function kpiIsAlert(item){ if(!item) return false; const def=kpiDefinitions[item.type]; return !!def && (def.direction === "max" ? item.value > def.target : item.value < def.target); }
+function kpiRender(){
+  kpiCards.replaceChildren();
+  ["mvp","tests","calendar"].forEach(type=>{
+    const def=kpiDefinitions[type], latest=kpiLatest(type), card=document.createElement("article");
+    card.className="kpi-card";
+    const h=document.createElement("h4"); h.textContent=def.name;
+    const value=document.createElement("span"); value.className="kpi-value"; value.textContent=latest ? latest.value+def.unit : "Sin registro";
+    const meta=document.createElement("p"); meta.className="kpi-meta"; meta.textContent="Meta: "+(type==="mvp"?"90% o más por revisión semanal":type==="tests"?"mínimo 5 por sprint":"no superar 14 días de retraso")+(latest?" · Última revisión: "+latest.date:" ");
+    const status=document.createElement("span"); status.className="kpi-status "+(latest&&!kpiIsAlert(latest)?"ok":"alert"); status.textContent=!latest?"Pendiente de medir":kpiIsAlert(latest)?"FOCO ROJO · Fuera del umbral":"En objetivo";
+    card.append(h,value,meta,status); kpiCards.appendChild(card);
+  });
+  const alerts=[];
+  ["mvp","tests","calendar"].forEach(type=>{const item=kpiLatest(type); if(item&&kpiIsAlert(item)){const d=kpiDefinitions[type]; alerts.push(d.name+": resultado de "+item.value+d.unit+". "+d.threshold);}});
+  kpiAlerts.classList.toggle("has-alert",alerts.length>0);
+  kpiAlerts.textContent=alerts.length?"FOCO ROJO ACTIVO: "+alerts.join(" "):kpiData.length?"No hay focos rojos en las últimas mediciones. Mantener la revisión semanal y al cierre de cada sprint.":"Sin mediciones registradas. Captura el primer resultado para activar las alertas.";
+  kpiHistory.replaceChildren();
+  const ordered=[...kpiData].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!ordered.length){const empty=document.createElement("p");empty.className="pm-empty";empty.textContent="Todavía no hay mediciones.";kpiHistory.appendChild(empty);return;}
+  ordered.slice(0,12).forEach(item=>{const line=document.createElement("div");line.className="kpi-history-item";const def=kpiDefinitions[item.type];line.textContent=def.name+" · "+item.value+def.unit+" · "+item.date+(item.notes?" · "+item.notes:"")+(kpiIsAlert(item)?" · FOCO ROJO":"");kpiHistory.appendChild(line);});
+}
+kpiForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  const type=document.getElementById("kpiType").value, value=Number(document.getElementById("kpiValue").value), date=document.getElementById("kpiDate").value;
+  if(!Number.isFinite(value)||value<0||!date) return;
+  if(type==="mvp"&&value>100){alert("El avance del MVP debe estar entre 0 y 100%.");return;}
+  if(type==="calendar"&&value>3650){alert("Revisa el número de días de retraso.");return;}
+  kpiData.push({id:Date.now()+Math.random(),type,value,date,notes:document.getElementById("kpiNotes").value.trim()});
+  kpiSave(); kpiForm.reset(); kpiRender();
+});
+kpiRender();
+
+/* ===== SISTEMA DE TAREAS LUDMMINE ===== */
+
+const pmForm = document.getElementById("pmForm");
+const pmTasks = document.getElementById("pmTasks");
+const pmSearch = document.getElementById("pmSearch");
+const pmFilter = document.getElementById("pmFilter");
+
+let pmData = [];
+
+try {
+  const saved = JSON.parse(
+    localStorage.getItem("ludmmineTasks") || "[]"
+  );
+
+  if (Array.isArray(saved)) pmData = saved;
+} catch {
+  pmData = [];
+}
+
+function pmSave() {
+  try {
+    localStorage.setItem(
+      "ludmmineTasks",
+      JSON.stringify(pmData)
+    );
+  } catch {
+    alert("No se pudieron guardar las tareas en este navegador.");
+  }
+}
+
+function pmRender() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const isOverdue = task =>
+    task.status !== "Completada" &&
+    task.due &&
+    new Date(task.due + "T00:00:00") < today;
+
+  document.getElementById("pmTotal").textContent =
+    pmData.length;
+
+  document.getElementById("pmPending").textContent =
+    pmData.filter(t => t.status === "Pendiente").length;
+
+  document.getElementById("pmProgress").textContent =
+    pmData.filter(t => t.status === "En progreso").length;
+
+  document.getElementById("pmOverdue").textContent =
+    pmData.filter(isOverdue).length;
+
+  const query = pmSearch.value.toLowerCase().trim();
+  const filter = pmFilter.value;
+
+  const visible = pmData.filter(task => {
+    const text = [
+      task.title, task.owner, task.area, task.level,
+      task.problem, task.action
+    ].join(" ").toLowerCase();
+
+    return text.includes(query) &&
+      (filter === "Todas" || task.status === filter);
+  });
+
+  pmTasks.replaceChildren();
+
+  if (!visible.length) {
+    const empty = document.createElement("p");
+    empty.className = "pm-empty";
+    empty.textContent = pmData.length
+      ? "No se encontraron tareas con esos filtros."
+      : "Todavía no hay tareas. ¡Agrega la primera!";
+
+    pmTasks.appendChild(empty);
+    return;
+  }
+
+  visible.forEach(task => {
+    const card = document.createElement("article");
+    card.className = "pm-task";
+
+    if (task.status === "Completada") {
+      card.classList.add("pm-completed");
+    }
+
+    const title = document.createElement("h4");
+    title.textContent = task.title;
+
+    const details = document.createElement("p");
+    details.textContent =
+      "Nivel: " + (task.level || "Operativa") +
+      " · Área: " + task.area +
+      " · Responsable: " + task.owner;
+
+    const context = document.createElement("p");
+    context.textContent = task.problem
+      ? "Situación: " + task.problem
+      : "Situación: No especificada";
+
+    const decision = document.createElement("p");
+    decision.className = "pm-decision";
+    decision.textContent = task.action
+      ? "Decisión / acción: " + task.action
+      : "Decisión / acción: No especificada";
+
+    const kpiLine = document.createElement("p");
+    kpiLine.className = "pm-kpi-detail";
+    const kpiNames = {mvp:"Avance del MVP",tests:"Pruebas con usuarios reales",calendar:"Cumplimiento del calendario",none:"Sin KPI específico"};
+    kpiLine.textContent = "KPI relacionado: " + (kpiNames[task.kpi] || "Avance del MVP");
+
+    const thresholdLine = document.createElement("p");
+    thresholdLine.textContent = "Umbral de alerta: " + (task.threshold || "Usar umbral general del tablero");
+
+    const correctiveLine = document.createElement("p");
+    correctiveLine.className = "pm-alert-detail";
+    correctiveLine.textContent = "Acción correctiva: " + (task.corrective || "Analizar la causa y acordar una medida con el responsable");
+
+    const deadline = document.createElement("p");
+    deadline.textContent = "Fecha límite: " + task.due;
+
+    if (isOverdue(task)) {
+      deadline.classList.add("pm-overdue");
+      const lateDays = Math.floor((today - new Date(task.due + "T00:00:00")) / 86400000);
+      deadline.textContent += " · ¡Vencida por " + lateDays + " día(s)!";
+      if (lateDays > 14) deadline.textContent += " · FOCO ROJO: supera 14 días de retraso";
+    }
+
+    const priority = document.createElement("p");
+    priority.textContent = "Prioridad: " + task.priority;
+
+    const controls = document.createElement("div");
+    controls.className = "pm-task-controls";
+
+    const status = document.createElement("select");
+    status.setAttribute("aria-label", "Estado de la tarea");
+
+    ["Pendiente", "En progreso", "Completada"].forEach(value => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      status.appendChild(option);
+    });
+
+    status.value = task.status;
+
+    status.addEventListener("change", () => {
+      task.status = status.value;
+      pmSave();
+      pmRender();
+    });
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "pm-delete";
+    remove.textContent = "Eliminar";
+
+    remove.addEventListener("click", () => {
+      if (!confirm("¿Eliminar esta tarea?")) return;
+
+      pmData = pmData.filter(t => t.id !== task.id);
+      pmSave();
+      pmRender();
+    });
+
+    controls.append(status, remove);
+    card.append(title, details, context, decision, kpiLine, thresholdLine, correctiveLine, deadline, priority, controls);
+    pmTasks.appendChild(card);
+  });
+}
+
+pmForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const title = document.getElementById("pmTitle").value.trim();
+  const owner = document.getElementById("pmOwner").value.trim();
+  const due = document.getElementById("pmDue").value;
+
+  if (!title || !owner || !due) return;
+
+  pmData.push({
+    id: Date.now() + Math.random(),
+    title,
+    owner,
+    due,
+    level: document.getElementById("pmLevel").value,
+    area: document.getElementById("pmArea").value,
+    problem: document.getElementById("pmProblem").value.trim(),
+    action: document.getElementById("pmAction").value.trim(),
+    kpi: document.getElementById("pmKpi").value,
+    threshold: document.getElementById("pmThreshold").value.trim(),
+    corrective: document.getElementById("pmCorrective").value.trim(),
+    priority: document.getElementById("pmPriority").value,
+    status: "Pendiente"
+  });
+
+  pmSave();
+  pmForm.reset();
+  pmRender();
+});
+
+pmSearch.addEventListener("input", pmRender);
+pmFilter.addEventListener("change", pmRender);
+
+pmRender();
+
+
+</script>
+
+
+<script>
+/* ===== INTERACCIONES DE LA UNIDAD VI ===== */
+(function(){
+ const money = n => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(Number.isFinite(n)?n:0);
+ const get = id => document.getElementById(id);
+ function calcBreakEven(){
+  const fixed=Number(get('u6Fixed').value)||0, price=Number(get('u6Price').value)||0, variable=Number(get('u6Variable').value)||0, sales=Number(get('u6Sales').value)||0;
+  const margin=price-variable;
+  get('u6Margin').textContent=money(margin);
+  if(margin<=0){get('u6BreakEven').textContent='No viable';get('u6Profit').textContent=money(sales*margin-fixed);get('u6BreakStatus').textContent='El precio debe ser mayor que el costo variable por contrato para alcanzar el punto de equilibrio.';return;}
+  const be=Math.ceil(fixed/margin), profit=sales*margin-fixed;
+  get('u6BreakEven').textContent=be+' contrato'+(be===1?'':'s');
+  get('u6Profit').textContent=money(profit);
+  get('u6BreakStatus').textContent=sales>=be?'Con '+sales+' contrato(s), Ludmmine cubre sus costos fijos y alcanza o supera el punto de equilibrio.':'Con '+sales+' contrato(s), todavía faltan '+(be-sales)+' para cubrir los costos fijos.';
+ }
+ ['u6Fixed','u6Price','u6Variable','u6Sales'].forEach(id=>get(id).addEventListener('input',calcBreakEven));
+ function calcBudget(){
+  const budget=Number(get('u6Budget').value)||0, actual=Number(get('u6Actual').value)||0, diff=actual-budget, pct=budget>0?(diff/budget)*100:(actual>0?100:0);
+  get('u6Difference').textContent=(diff>0?'+':'')+money(diff);
+  get('u6Variation').textContent=pct.toFixed(1)+'%';
+  const status=get('u6TrafficLabel'), traffic=get('u6Traffic');
+  status.className='u6-status';
+  if(diff<=0){traffic.textContent='Verde';status.textContent='Dentro del presupuesto';status.classList.add('ok');}
+  else if(pct<=10){traffic.textContent='Amarillo';status.textContent='Desviación de hasta 10%';status.classList.add('warn');}
+  else{traffic.textContent='Rojo';status.textContent='Superó el presupuesto en más de 10%';status.classList.add('bad');}
+ }
+ ['u6Budget','u6Actual'].forEach(id=>get(id).addEventListener('input',calcBudget));
+ get('u6LogButton').addEventListener('click',()=>{
+  const budget=Number(get('u6Budget').value)||0, actual=Number(get('u6Actual').value)||0, reason=get('u6Reason').value.trim();
+  const item=document.createElement('div');item.className='kpi-history-item';
+  const date=new Date().toLocaleDateString('es-MX');
+  const strong=document.createElement('strong');strong.textContent=date+' · '+get('u6Traffic').textContent+' · ';
+  const span=document.createElement('span');span.textContent='Presupuesto '+money(budget)+' / gasto '+money(actual)+' / diferencia '+money(actual-budget)+(reason?' · Motivo: '+reason:' · Sin motivo agregado');
+  item.append(strong,span);
+  const log=get('u6Log');if(log.querySelector('.pm-empty'))log.replaceChildren();log.prepend(item);
+  get('u6Reason').value='';
+ });
+ const checks=[...get('u6AuditList').querySelectorAll('input[type="checkbox"]')];
+ function auditProgress(){const done=checks.filter(c=>c.checked).length,pct=Math.round(done/checks.length*100);get('u6AuditBar').style.width=pct+'%';get('u6AuditProgress').textContent=done+' de '+checks.length+' puntos comprobados ('+pct+'%).';}
+ checks.forEach(c=>c.addEventListener('change',auditProgress));
+ calcBreakEven();calcBudget();auditProgress();
+})();
+</script>
+
+</body>
+
+</html>
